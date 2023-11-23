@@ -3,6 +3,8 @@ import { Popover, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react"; // Import useState
 import Image from "next/image";
 import { DropDown } from "./dropDown";
+import Link from "next/link";
+import HeaderLinks from "./headerLinks";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false); // State to manage dropdown visibility
@@ -18,6 +20,8 @@ export default function Header() {
           {/* Drop down menu */}
           <DropDown />
 
+          {/* Link */}
+
           {/* LOGO */}
           <a href="#" className="-m-1.5 p-1.5">
             <Image
@@ -29,7 +33,12 @@ export default function Header() {
             />
           </a>
         </div>
-
+        {/* button */}
+        <div >
+          <Link href="/question">
+            <p>Questions</p>
+          </Link>
+        </div>
         {/* login */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <a href="#" className="text-sm font-semibold leading-6 text-white">
