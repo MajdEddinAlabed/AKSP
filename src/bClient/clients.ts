@@ -27,9 +27,6 @@ export class Client {
         });
 
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-
-
-
     }
 
     /**
