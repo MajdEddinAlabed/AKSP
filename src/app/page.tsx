@@ -1,14 +1,23 @@
 import Image from "next/image";
+import { useState } from "react";
 import "src/ui/globals.css"
+import { Client } from "../api/generated.api";
 
 
 export default function Home() {
+  // const [communities, setCommunities] = useState<any[] | undefined>([]);
+
+  // const getCommunities = async () => {
+  //   const client = new Client();
+  //   const communities = await client.communitiesAll.communitiesAll();
+  //   setCommunities(communities);
+  // };
   return (
     <main>
       <div className="text-center pt-32">
         <h1 className="text-5xl">Welcome to ASKP</h1>
       </div>
-
+{/* 
       <div className="text-center mt-20">
         <p className="max-w-[750px] mx-auto leading-8">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, ullam.
@@ -24,6 +33,23 @@ export default function Home() {
           Explicabo eius corrupti eveniet aspernatur exercitationem at dolorum
           consequatur!
         </p>
+      </div> */}
+      <div className="flex justify-center items-center">
+        <ul className="w-10">
+          <li className="">
+            <h1 className="font-serif text-xl">
+              Coding Community
+            </h1>
+            <p>meap company wow</p>
+          </li>
+          <div className="py-2"></div>
+          <li className="">
+            <h1>
+              meap
+            </h1>
+            <p>meap company wow</p>
+          </li>
+        </ul>
       </div>
     </main>
   );

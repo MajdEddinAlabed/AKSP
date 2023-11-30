@@ -1,63 +1,42 @@
-import { TrashIcon } from "@heroicons/react/20/solid";
+import { Client } from "@/src/bClient/clients";
 import Image from "next/image";
+import { mockQuestions } from "@/src/lib/mockQuestions";
+import { JSX } from "react";
+import "/src/lib/general.css";
+import { QuestionReadDto } from "@/src/lib/types";
 
-export default function Question() {
+function QuestionPreview(question: QuestionReadDto) {
+  return (
+    <>
+      <div className="zoom">
+        <div className="m-4 font-IBMPlexSansArabic text-right ">
+          <h1 className="font-bold text-2xl">{question.title}</h1>
+          <p className="font-light text-lg text-stone-300	opacity-75">
+            {question.content}
+          </p>
+        </div>
+      </div>
+      <div className="divider"></div>
+    </>
+  );
+}
+
+export default async function Questions() {
+  const api = new Client("http://api.myapp.com:8081");
+  const questions2 = await api.getAllQuestion();
+  const questions = mockQuestions;
   return (
     <main>
-      <div className="text-center pt-32">
-        <h1 className="text-5xl">Welcome to ASKP Question</h1>
-      </div>
-
-      <div className="text-center mt-20">
-        <p className="max-w-[750px] mx-auto leading-8">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, ullam.
-          Velit itaque ullam error, labore veritatis nam quas alias deserunt
-          expedita cupiditate modi consectetur accusamus molestiae fuga eum
-          eveniet quo aspernatur illum et vero. Atque, autem? Dignissimos
-          quisquam reprehenderit, nulla facere nemo reiciendis ab id iusto odio
-          eum temporibus minima illum vitae itaque illo asperiores hic harum
-          neque iure. Necessitatibus dolores vero minima temporibus debitis
-          accusantium quaerat dolorum incidunt quod eos fugit consequuntur
-          consequatur nobis, aspernatur cum adipisci veritatis corporis magnam
-          nihil, doloribus ipsum earum quas. Hic vero ut consequatur saepe?
-          Explicabo eius corrupti eveniet aspernatur exercitationem at dolorum
-          consequatur!
-        </p>
+      <div className="flex flex-col items-center justify-center">
+        <h1 className="text-4xl font-serif py-8">Questions</h1>
+        <div>
+          {questions.map(
+            (questions: JSX.IntrinsicAttributes & QuestionReadDto) => (
+              <QuestionPreview key={questions.id} {...questions} />
+            )
+          )}
+        </div>
       </div>
     </main>
   );
 }
-// import { GetServerSideProps } from "next";
-
-// export default function Question({
-//   title,
-//   content,
-// }: {
-//   title: string;
-//   content: string;
-// }) {
-//   return (
-//     <main>
-//       <div className="text-center pt-32">
-//         <h1 className="text-5xl">{title}</h1>
-//       </div>
-
-//       <div className="text-center mt-20">
-//         <p className="max-w-[750px] mx-auto leading-8">{content}</p>
-//       </div>
-//     </main>
-//   );
-// }
-
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   // For now, we'll use static data
-//   const data = {
-//     title: "Welcome to ASKP",
-//     content:
-//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, ullam. Velit itaque ullam error, labore veritatis nam quas alias deserunt expedita cupiditate modi consectetur accusamus molestiae fuga eum eveniet quo aspernatur illum et vero. Atque, autem? Dignissimos quisquam reprehenderit, nulla facere nemo reiciendis ab id iusto odio eum temporibus minima illum vitae itaque illo asperiores hic harum neque iure. Necessitatibus dolores vero minima temporibus debitis accusantium quaerat dolorum incidunt quod eos fugit consequuntur consequatur nobis, aspernatur cum adipisci veritatis corporis magnam nihil, doloribus ipsum earum quas. Hic vero ut consequatur saepe? Explicabo eius corrupti eveniet aspernatur exercitationem at dolorum consequatur!",
-//   };
-
-//   return {
-//     props: data,
-//   };
-// };
