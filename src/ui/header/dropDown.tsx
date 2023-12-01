@@ -88,7 +88,7 @@ export const DropDown = () => {
               leaveTo="opacity-0 "
             >
               <Popover.Panel
-                className="absolute top-19 left-0 z-10"
+                className="absolute top-19"
                 style={{ width: "200px" }}
               >
                 {/* Your dropdown menu content goes here */}

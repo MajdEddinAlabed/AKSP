@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
 import "src/ui/globals.css"
-import { Client } from "../api/generated.api";
 
 
 export default function Home() {

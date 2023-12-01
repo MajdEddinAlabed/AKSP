@@ -5,8 +5,9 @@ import Image from "next/image";
 import { DropDown } from "./dropDown";
 import Link from "next/link";
 import HeaderLinks from "./headerLinks";
-import "src/ui/globals.css"
-
+import "src/ui/globals.css";
+import "src/ui/header/header.css"
+import { CommDropdown } from "./commDropdown";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false); // State to manage dropdown visibility
@@ -35,14 +36,9 @@ export default function Header() {
             />
           </a>
         </div>
-        
+
         <div></div>
-        {/* login */}
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
-            Log in <span aria-hidden="true">&rarr;</span>
-          </a>
-        </div>
+        <CommDropdown />
       </div>
     </header>
   );
