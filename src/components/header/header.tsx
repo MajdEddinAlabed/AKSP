@@ -2,13 +2,13 @@
 import { Popover, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react"; // Import useState
 import Image from "next/image";
-import { DropDown } from "./dropDown";
+import { DropDown } from "../mainDropdown/dropDown";
 import Link from "next/link";
-import HeaderLinks from "./headerLinks";
-import "src/ui/globals.css";
-import "src/ui/header/header.css"
-import { CommDropdown } from "./commDropdown";
-import { SearchBox } from "./searchBox";
+import HeaderLinks from "../navLinks/headerLinks";
+import "src/components/globals.css";
+import "src/components/header/header.css"
+import { CommDropdown } from "../commDropdown/commDropdown";
+import { SearchBox } from "../searchBox/searchBox";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false); // State to manage dropdown visibility

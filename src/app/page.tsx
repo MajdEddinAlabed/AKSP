@@ -1,54 +1,37 @@
+import { BackAPIClient as api } from "@/src/bClient/client";
+import { CommunityReadDto } from "@/src/lib/types";
 import Image from "next/image";
-import { useState } from "react";
-import "src/ui/globals.css"
 
+function CommunityCard(community: CommunityReadDto) {
+  return (
+    <>
+      {/* <div className="w-64 h-64 bg-gray-100 rounded-lg shadow-md">
+        <Image src=`"{community.icon}"` alt="" layout="fill" />
+      </div> */}
+      <div className="p-4 sm:mx-8 md:mx-12 lg:mx-16 xl:mx-20 2xl:mx-24">
+        <div className="border border-solid border-white rounded-lg p-4 font-IBMPlexSansArabic text-right antialiased">
+          <h1 className="font-bold text-2xl ">{community.name}</h1>
+          <p className="font-light text-lg text-stone-300	">
+            {community.description}
+          </p>
+        </div>
+        <div className="my-8"></div>
+      </div>
+    </>
+  );
+}
 
-export default function Home() {
-  // const [communities, setCommunities] = useState<any[] | undefined>([]);
-
-  // const getCommunities = async () => {
-  //   const client = new Client();
-  //   const communities = await client.communitiesAll.communitiesAll();
-  //   setCommunities(communities);
-  // };
+export default async function Communities() {
+  const communities = await api().communitiesAll();
   return (
     <main>
-      <div className="text-center pt-32">
-        <h1 className="text-5xl">Welcome to ASKP</h1>
-      </div>
-{/* 
-      <div className="text-center mt-20">
-        <p className="max-w-[750px] mx-auto leading-8">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, ullam.
-          Velit itaque ullam error, labore veritatis nam quas alias deserunt
-          expedita cupiditate modi consectetur accusamus molestiae fuga eum
-          eveniet quo aspernatur illum et vero. Atque, autem? Dignissimos
-          quisquam reprehenderit, nulla facere nemo reiciendis ab id iusto odio
-          eum temporibus minima illum vitae itaque illo asperiores hic harum
-          neque iure. Necessitatibus dolores vero minima temporibus debitis
-          accusantium quaerat dolorum incidunt quod eos fugit consequuntur
-          consequatur nobis, aspernatur cum adipisci veritatis corporis magnam
-          nihil, doloribus ipsum earum quas. Hic vero ut consequatur saepe?
-          Explicabo eius corrupti eveniet aspernatur exercitationem at dolorum
-          consequatur!
-        </p>
-      </div> */}
-      <div className="flex justify-center items-center">
-        <ul className="w-10">
-          <li className="">
-            <h1 className="font-serif text-xl">
-              Coding Community
-            </h1>
-            <p>meap company wow</p>
-          </li>
-          <div className="py-2"></div>
-          <li className="">
-            <h1>
-              meap
-            </h1>
-            <p>meap company wow</p>
-          </li>
-        </ul>
+      <div className="flex flex-col items-center justify-center">
+        <h1 className="text-4xl font-serif py-8">Communities</h1>
+        <div>
+          {communities.map((community) => (
+            <CommunityCard key={community.id} {...community} />
+          ))}
+        </div>
       </div>
     </main>
   );

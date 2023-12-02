@@ -1,10 +1,9 @@
 import { Fragment, useState, useRef, useEffect } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
-import Header from "./header";
-import "src/ui/globals.css"
-import "src/ui/header/header.css"
-
+import Header from "../header/header";
+import "src/components/globals.css";
+import "src/components/header/header.css";
 
 export const DropDown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +15,7 @@ export const DropDown = () => {
 
   const closeDropdown = () => {
     setIsOpen(false);
-  }
+  };
 
   const handleClickOutside = (event: { target: any }) => {
     if (popoverRef.current && !popoverRef.current.contains(event.target)) {
@@ -93,14 +92,12 @@ export const DropDown = () => {
             >
               <Popover.Panel
                 className="absolute top-19"
-                style={{ width: "200px" , backgroundColor: "#0a0a0a"}}
+                style={{ width: "200px", backgroundColor: "#0a0a0a" }}
               >
                 {/* Your dropdown menu content goes here */}
                 <div className="p-4 text-white rounded-b border border-white border-t-black">
                   {/* button */}
-                  <div className=" ">
-                    
-                  </div>
+                  <div className=" "></div>
                 </div>
               </Popover.Panel>
             </Transition>

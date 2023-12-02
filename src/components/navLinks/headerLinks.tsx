@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 const links = [
-  { name: "Questions", href: "/question", icon: DocumentDuplicateIcon },
+  { name: "Questions", href: "/q", icon: DocumentDuplicateIcon },
 ];
 
 export default function HeaderLinks() {
