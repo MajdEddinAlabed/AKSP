@@ -4,33 +4,42 @@ import { Transition } from "@headlessui/react";
 
 export const CommDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setIsOpen(true);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
   };
 
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsOpen(false);
-    }, 50);
+  const closeDropdown = () => {
+    setIsOpen(false);
   };
 
   useEffect(() => {
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    const handleClickOutside = (event: { target: any; }) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        closeDropdown();
+      }
     };
-  }, []);
 
+    const handleLinkClick = () => {
+      closeDropdown();
+    };
+
+    if (isOpen) {
+      document.addEventListener("click", handleClickOutside);
+      document.addEventListener("keydown", handleLinkClick);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("keydown", handleLinkClick);
+    };
+  }, [isOpen]);
   return (
-    <div
-      className="onHover"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <div className="relative inline-block">
-        <button className="dropbtn">
+    <div>
+      <div className="relative inline-block" ref={dropdownRef}>
+        <button onClick={toggleDropdown}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -56,27 +65,26 @@ export const CommDropdown = () => {
           leaveFrom="opacity-100 "
           leaveTo="opacity-0 "
         >
-          {isOpen && (
-            <div
-              className="absolute top-19 z-10 dropdown-content"
-              style={{ width: "200px" }}
-              onMouseLeave={() => setIsOpen(false)}
-            >
-              <div className="p-4 mx-5 text-white rounded-b border border-white border-t-black">
+          <div
+            className="absolute top-19 z-10 left-[-19px] dropdown-content"
+            style={{ width: "200px" }}
+          >
+            <div className="p-4 mx-5 text-white rounded-b border border-white border-t-black">
+              <div>
                 <div>
-                  <Link href={""}>Community 1</Link>
+                  <Link href={""} onClick={closeDropdown}>Community 1</Link>
                 </div>
                 <div>
-                  <Link href={""}>Community 2</Link>
+                  <Link href={""} onClick={closeDropdown}>Community 2</Link>
                 </div>
                 <div>
-                  <Link href={""}>Community 3</Link>
+                  <Link href={""} onClick={closeDropdown}>Community 3</Link>
                 </div>
                 <div>
-                  <Link href={""}>Community 4</Link>
+                  <Link href={""} onClick={closeDropdown}>Community 4</Link>
                 </div>
                 <div>
-                  <Link href={""}>Community 5</Link>
+                  <Link href={""} onClick={closeDropdown}>Community 5</Link>
                 </div>
                 <div>
                   <Link href={""}>Community 5</Link>
@@ -95,7 +103,7 @@ export const CommDropdown = () => {
                 </div>
               </div>
             </div>
-          )}
+          </div>
         </Transition>
       </div>
     </div>

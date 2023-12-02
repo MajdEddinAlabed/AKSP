@@ -8,6 +8,7 @@ import HeaderLinks from "./headerLinks";
 import "src/ui/globals.css";
 import "src/ui/header/header.css"
 import { CommDropdown } from "./commDropdown";
+import { SearchBox } from "./searchBox";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false); // State to manage dropdown visibility
@@ -35,8 +36,12 @@ export default function Header() {
               height={0}
             />
           </a>
+          <SearchBox />
+          <HeaderLinks />
         </div>
-
+        
+          {/* Search box */}
+          
         <div></div>
         <CommDropdown />
       </div>
