@@ -1,9 +1,10 @@
-import { Client } from "@/src/bClient/clients";
+import { BackAPIClient as api } from "@/src/bClient/client";
 import Image from "next/image";
 import { mockQuestions } from "@/src/lib/mockQuestions";
 import { JSX } from "react";
 import "/src/lib/general.css";
 import { QuestionReadDto } from "@/src/lib/types";
+import Link from "next/link";
 
 function QuestionPreview(question: QuestionReadDto) {
   return (
@@ -22,8 +23,7 @@ function QuestionPreview(question: QuestionReadDto) {
 }
 
 export default async function Questions() {
-  const api = new Client("http://api.myapp.com:8081");
-  const questions2 = await api.getAllQuestion();
+  //const questions2 = await api().getAllQuestion();
   const questions = mockQuestions;
   return (
     <main>
@@ -39,11 +39,11 @@ export default async function Questions() {
       <div className="my-5"></div>
       <div className="flex flex-col items-center justify-center h-1/2">
         <div className="w-full">
-          {questions.map(
-            (questions: JSX.IntrinsicAttributes & QuestionReadDto) => (
-              <QuestionPreview key={questions.id} {...questions} />
-            )
-          )}
+            {questions.map(
+              (questions: JSX.IntrinsicAttributes & QuestionReadDto) => (
+                <QuestionPreview key={questions.id} {...questions} />
+              )
+            )}
         </div>
       </div>
     </main>

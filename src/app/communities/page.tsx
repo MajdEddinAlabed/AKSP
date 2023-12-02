@@ -1,4 +1,5 @@
-import { Client, CommunityReadDto } from "@/src/bClient/clients";
+import { BackAPIClient as api } from "@/src/bClient/client";
+import { CommunityReadDto } from "@/src/lib/types";
 import Image from "next/image";
 
 function CommunityCard(community: CommunityReadDto) {
@@ -21,8 +22,7 @@ function CommunityCard(community: CommunityReadDto) {
 }
 
 export default async function Communities() {
-  const api = new Client("http://api.myapp.com:8081");
-  const communities = await api.communitiesAll();
+  const communities = await api().communitiesAll();
   return (
     <main>
       <div className="flex flex-col items-center justify-center">
