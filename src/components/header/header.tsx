@@ -21,7 +21,7 @@ export default function Header() {
           {/* Header buttons */}
           <HeaderButtons />
           {/* Communities dropdown icon button */}
-          <CommDropdown />
+          <CommDropdown communities={[]} />
         </div>
       </div>
     </header>

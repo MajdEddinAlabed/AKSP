@@ -1,46 +1,19 @@
-import { Fragment, useState, useRef, useEffect } from "react";
-import { Popover, Transition } from "@headlessui/react";
-import Link from "next/link";
-import Header from "../header/header";
-import "src/components/globals.css";
-import "src/components/header/header.css";
+import { Fragment } from "react";
+import { Popover } from "@headlessui/react";
 import Transitions from "../transition/transition";
 import { xIcon, threeLinesLeft } from "../icons/icons";
+import DropdownHandler from "../handleDropdown/dropdownHandler";
 
 export const DropDown = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const popoverRef = useRef<HTMLDivElement>(null);
-
-  const handleDropdownToggle = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const closeDropdown = () => {
-    setIsOpen(false);
-  };
-
-  const handleClickOutside = (event: { target: any }) => {
-    if (popoverRef.current && !popoverRef.current.contains(event.target)) {
-      setIsOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    // Attach the listeners on component mount.
-    document.addEventListener("mousedown", handleClickOutside);
-    // Detach the listeners on component unmount.
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  const { isOpen, toggleDropdown, closeDropdown, dropdownRef } = DropdownHandler();
 
   return (
-    <div className="relative inline-block" ref={popoverRef}>
+    <div className="relative inline-block" ref={dropdownRef}>
       {/* Drop down menu */}
       <Popover>
         {({ open }) => (
           <>
-            <Popover.Button onClick={handleDropdownToggle}>
+            <Popover.Button onClick={toggleDropdown}>
               {/* Update class based on dropdown state */}
               <a
                 href="#"
@@ -70,3 +43,4 @@ export const DropDown = () => {
     </div>
   );
 };
+
