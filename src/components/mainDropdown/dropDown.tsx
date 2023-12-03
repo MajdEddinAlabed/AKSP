@@ -4,6 +4,8 @@ import Link from "next/link";
 import Header from "../header/header";
 import "src/components/globals.css";
 import "src/components/header/header.css";
+import Transitions from "../transition/transition";
+import { xIcon, threeLinesLeft } from "../icons/icons";
 
 export const DropDown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,50 +48,11 @@ export const DropDown = () => {
                   isOpen ? "text-indigo-600" : ""
                 }`}
               >
-                {isOpen ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6 "
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 -4 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"
-                    />
-                  </svg>
-                )}
+                {isOpen ? xIcon() : threeLinesLeft()}
               </a>
             </Popover.Button>
 
-            <Transition
-              as={Fragment}
-              show={isOpen}
-              enter="transition  duration-200"
-              enterFrom="opacity-50 "
-              enterTo="opacity-100 "
-              leave="transition ease-out duration-200"
-              leaveFrom="opacity-100 "
-              leaveTo="opacity-0 "
-            >
+            <Transitions isOpen={isOpen}>
               <Popover.Panel
                 className="absolute top-19"
                 style={{ width: "200px", backgroundColor: "#0a0a0a" }}
@@ -100,7 +63,7 @@ export const DropDown = () => {
                   <div className=" "></div>
                 </div>
               </Popover.Panel>
-            </Transition>
+            </Transitions>
           </>
         )}
       </Popover>

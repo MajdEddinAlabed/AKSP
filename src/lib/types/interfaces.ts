@@ -67,7 +67,7 @@ export interface CommunityReadDto {
     description?: string | undefined;
     creationDate?: string;
     isPrivate?: boolean;
-    icon: string;
+    icon?: string;
 }
 
 export interface CommunityUpdateDto {
