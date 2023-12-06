@@ -4,6 +4,7 @@ import { questionIcon, communitiesIcon, homepageIcon } from "../icons/icons";
 const links = [
   { name: "Home page", href: "/", icon: homepageIcon },
   { name: "Communities", href: "/communities", icon: communitiesIcon },
+  // { name: "Sign Up", href: "/signUp", icon: questionIcon },
 ];
 
 export default function HeaderButtons() {

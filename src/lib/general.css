@@ -9,5 +9,6 @@
 
 .divider {
     border-bottom: 1px solid;
-    color: grey;
+    color: rgba(128, 128, 128, 0.24);
+    width: 700px;
   }

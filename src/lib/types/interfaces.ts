@@ -222,7 +222,6 @@ export interface User {
 }
 
 export interface UserCreateDto {
-    passwrod: string;
     userName: string;
     password: string;
     email: string;

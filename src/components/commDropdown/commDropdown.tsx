@@ -6,13 +6,12 @@ import Transitions from "../transition/transition"; // Import the Transitions co
 
 interface CommDropdownProps {
   communities: CommunityReadDto[];
-  
 }
 
 export const CommDropdown = ({ communities }: CommDropdownProps) => {
   const { isOpen, toggleDropdown, closeDropdown, dropdownRef } =
     CommDropdownHandler();
-  console.log("Communitiessssssssssssss:", communities);
+  // console.log("Communitiessssssssssssss:", communities);
 
   return (
     <div>

@@ -41,7 +41,7 @@ function CommunityCard({ name, description, bgColor }: CommunityReadDto & { bgCo
 // Usage in Communities component
 export default async function Communities() {
   const communities = await api().communitiesAll();
-  console.log("Communities:", communities);
+  // console.log("Communities:", communities);
   const randomColors = generateRandomColors(communities.length);
 
   return (
