@@ -5,6 +5,7 @@ import { QuestionReadDto } from "@/src/lib/types";
 import askButton from "@/src/components/buttons/askButton";
 import Link from "next/link";
 
+
 function QuestionPreview(question: QuestionReadDto) {
   return (
     <div className="flex flex-col w-full">
