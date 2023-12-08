@@ -1,3 +1,4 @@
+"use client";
 import { BackAPIClient as api } from "@/src/bClient/client";
 import { QuestionReadDto } from "@/src/lib/types";
 import { useRouter } from "next/router";
@@ -9,16 +10,17 @@ export default function Question() {
   const { id } = router.query;
   const [question, setQuestion] = useState<QuestionReadDto | null>(null);
 
-  useEffect(() => {
-    if (router.isReady) {
-      console.log('id', id);
-      // api().getQuestionById(Number(id))
-      //   .then(data => setQuestion(data));
-      const mockQuestion = mockQuestions.find(q => q.id === Number(id)) || null;
-      console.log('mockQuestions', mockQuestion);
-      setQuestion(mockQuestion);
-    }
-  }, [router.isReady, id]);
+  // useEffect(() => {
+  //   if (router.isReady) {
+  //  //   console.log("id", id);
+  //     // api().getQuestionById(Number(id))
+  //     //   .then(data => setQuestion(data));
+  //     const mockQuestion =
+  //       mockQuestions.find((q) => q.id === Number(id)) || null;
+  //    // console.log("mockQuestions", mockQuestion);
+  //     setQuestion(mockQuestion);
+  //   }
+  // }, [router.isReady, id]);
 
   if (!question) {
     return <div>Loading...</div>;
@@ -32,7 +34,6 @@ export default function Question() {
         <div>
           <div>
             <h1>{question.title}</h1>
-            
           </div>
           <div>ask question button</div>
         </div>
@@ -62,7 +63,5 @@ export default function Question() {
         </div>
       </div>
     </main>
-    
   );
-  
 }

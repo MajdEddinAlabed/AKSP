@@ -66,6 +66,7 @@ export interface CommunityReadDto {
     name?: string | undefined;
     description?: string | undefined;
     creationDate?: string;
+    host?: string;
     isPrivate?: boolean;
     icon?: string;
 }

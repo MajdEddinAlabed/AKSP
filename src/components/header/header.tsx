@@ -7,8 +7,13 @@ import { CommDropdown } from "../commDropdown/commDropdown";
 import { SearchBox } from "../searchBox/searchBox";
 import { Logo } from "../logo/logo";
 import Link from "next/dist/client/link";
+import { CommunityReadDto } from "@/src/lib/types";
 
-export default function Header() {
+interface HeaderProps {
+  communities: CommunityReadDto[];
+}
+export default function Header({ communities }: HeaderProps) {
+
   return (
     <header className="relative border-b border-white">
       <div className="flex items-center relative">
@@ -23,7 +28,7 @@ export default function Header() {
             {/* Header buttons */}
             <HeaderButtons />
             {/* Communities dropdown icon button */}
-            <CommDropdown communities={[]} />
+            <CommDropdown communities={communities} />
           </div>
         </div>
         {/* This is buttons for login and sign up pages but when adding them it's making the header move to the right and i don't know how to do it */}

@@ -11,6 +11,8 @@
 import axios, { AxiosError } from 'axios';
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 import { AnswerCreateDto, CommentCreateDto, CommunityCreateDto, CommunityReadDto, CommunityUpdateDto, QuestionCreateDto, QuestionReadDto, SavedAnswerDto, SavedQuestionDto, TagCreateDto, TagReadDto, TagUpdateDto, UserCreateDto, UserReadDto, UserUpdateDto, VoteCreateDto } from '../lib/types';
+import { NextResponse } from 'next/server';
+import { RedirectType, permanentRedirect } from 'next/navigation';
 
 export interface IClient {
     /**
@@ -1222,7 +1224,7 @@ export class Client implements IClient {
             if (isAxiosError(_error) && _error.response) {
                 return _error.response;
             } else {
-                throw _error;
+                permanentRedirect(`http://${process.env.APP_BASEURL}`,RedirectType.replace);
             }
         }).then((_response: AxiosResponse) => {
             return this.processGetAllQuestion(_response);
@@ -1240,14 +1242,13 @@ export class Client implements IClient {
             }
         }
         if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = JSON.parse(resultData200);
-            return Promise.resolve<QuestionReadDto[]>(result200);
+            return Promise.resolve<QuestionReadDto[]>(response.data);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
+            if(status == 400){
+                permanentRedirect(`http://${process.env.APP_BASEURL}`,RedirectType.replace);
+            }
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
         return Promise.resolve<QuestionReadDto[]>(null as any);

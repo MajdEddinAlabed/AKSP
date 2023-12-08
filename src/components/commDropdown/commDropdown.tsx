@@ -11,8 +11,6 @@ interface CommDropdownProps {
 export const CommDropdown = ({ communities }: CommDropdownProps) => {
   const { isOpen, toggleDropdown, closeDropdown, dropdownRef } =
     CommDropdownHandler();
-  // console.log("Communitiessssssssssssss:", communities);
-
   return (
     <div>
       <div className="relative inline-block" ref={dropdownRef}>
