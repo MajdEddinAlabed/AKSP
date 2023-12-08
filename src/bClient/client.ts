@@ -37,8 +37,10 @@ export async function BackAPIClient(): Promise<IClient> {
     if (!apidomainlist.some((d) => d.host === host)) {
       baseUrl = `${process.env.API_SCHEME}://${host}${process.env.API_BASEURL}`;
     } else {
-      const apidomain = apidomainlist.find((q) => q.host == host).apidomain;
-      baseUrl = apidomain;
+      const apidomainObject = apidomainlist.find((q) => q.host == host);
+      if (apidomainObject) {
+        baseUrl = apidomainObject.apidomain;
+      }
     }
   }
 
