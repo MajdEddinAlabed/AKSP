@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { questionIcon, communitiesIcon, homepageIcon } from "../icons/icons";
-import { RedirectType, permanentRedirect } from "next/navigation";
+import { communitiesIcon, homepageIcon } from "../icons/icons";
 
 const links = [
   { name: "Home page", href: `/`, icon: homepageIcon },
@@ -16,7 +15,7 @@ export default function HeaderButtons() {
         return (
           <div key={index}>
             <Link href={link.href}>
-              <div className="flex justify-inline">
+              <div className="flex justify-inline mr-4">
                 <LinkIcon />
                 {link.name}
               </div>

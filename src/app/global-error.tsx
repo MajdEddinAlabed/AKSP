@@ -1,19 +1,21 @@
-'use client'
+"use client";
 
 import { isAxiosError } from "axios";
 import { RedirectType, permanentRedirect } from "next/navigation";
 
- 
 export default function GlobalError({
   error,
   reset,
 }: {
-  error: Error & { digest?: string }
-  reset: () => void
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
   if (!isAxiosError(error)) {
-    permanentRedirect(`http://${process.env.APP_BASEURL}`,RedirectType.replace);
-}
+    permanentRedirect(
+      `http://${process.env.APP_BASEURL}`,
+      RedirectType.replace
+    );
+  }
   return (
     <html>
       <body>
@@ -21,5 +23,5 @@ export default function GlobalError({
         <button onClick={() => reset()}>Try again</button>
       </body>
     </html>
-  )
+  );
 }

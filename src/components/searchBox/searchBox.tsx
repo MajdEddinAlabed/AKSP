@@ -1,9 +1,5 @@
-import React, { Fragment, useState, useRef, useEffect } from "react";
-import Link from "next/link";
-import { Transition } from "@headlessui/react";
 import "@/src/components/header/header.css";
 import { searchIcon } from "../icons/icons";
-
 
 export const SearchBox = () => {
   return (

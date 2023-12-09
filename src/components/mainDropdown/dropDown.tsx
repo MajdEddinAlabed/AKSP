@@ -1,12 +1,11 @@
-import { Fragment } from "react";
 import { Popover } from "@headlessui/react";
 import Transitions from "../transition/transition";
 import { xIcon, threeLinesLeft } from "../icons/icons";
 import DropdownHandler from "../handleDropdown/dropdownHandler";
-import Link from "next/link";
 
 export const DropDown = () => {
-  const { isOpen, toggleDropdown, closeDropdown, dropdownRef } = DropdownHandler();
+  const { isOpen, toggleDropdown, closeDropdown, dropdownRef } =
+    DropdownHandler();
 
   return (
     <div className="relative inline-block" ref={dropdownRef}>
@@ -34,7 +33,7 @@ export const DropDown = () => {
                 {/* Your dropdown menu content goes here */}
                 <div className="p-4 text-white rounded-b border border-white border-t-black">
                   {/* button */}
-                  
+
                   <div className=" "></div>
                 </div>
               </Popover.Panel>
@@ -45,4 +44,3 @@ export const DropDown = () => {
     </div>
   );
 };
-

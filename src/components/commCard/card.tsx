@@ -1,8 +1,5 @@
 import { BackAPIClient as api } from "@/src/bClient/client";
-import { CommunityReadDto } from "@/src/lib/types";
-import Link from "next/link";
 import "./card.css";
-import { useState } from "react";
 import tinycolor from "tinycolor2";
 import { CommunityCard } from "../commDropdown/CommunityCard";
 

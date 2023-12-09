@@ -37,12 +37,14 @@ export async function BackAPIClient(): Promise<IClient> {
     if (!apidomainlist.some((d) => d.host === subdomain)) {
       baseUrl = `${process.env.API_SCHEME}://${host}${process.env.API_BASEURL}`;
     } else {
-      const apidomain = apidomainlist?.find((q) => q.host == subdomain)?.apidomain ?? `${process.env.API_SCHEME}://${process.env.API_BASEURL}` ;
-        baseUrl = apidomain;
+      const apidomain =
+        apidomainlist?.find((q) => q.host == subdomain)?.apidomain ??
+        `${process.env.API_SCHEME}://${process.env.API_BASEURL}`;
+      baseUrl = apidomain;
     }
   }
 
-   console.log("baseUrl: ", baseUrl);
+  console.log("baseUrl: ", baseUrl);
   let cli = new Client(baseUrl, aux);
 
   return cli;

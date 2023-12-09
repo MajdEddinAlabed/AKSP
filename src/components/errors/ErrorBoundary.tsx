@@ -1,5 +1,5 @@
-"use client"
-import React, { ErrorInfo, ReactNode } from 'react';
+"use client";
+import React, { ErrorInfo, ReactNode } from "react";
 
 interface Props {
   children: ReactNode;

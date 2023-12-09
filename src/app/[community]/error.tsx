@@ -1,9 +1,9 @@
-'use client';
- 
-import { isAxiosError } from 'axios';
-import { RedirectType, permanentRedirect } from 'next/navigation';
-import { useEffect } from 'react';
- 
+"use client";
+
+import { isAxiosError } from "axios";
+import { RedirectType, permanentRedirect } from "next/navigation";
+import { useEffect } from "react";
+
 export default function Error({
   error,
   reset,
@@ -11,17 +11,20 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-    console.log("11111111111")
+  console.log("11111111111");
 
-    if (!isAxiosError(error)) {
-            permanentRedirect(`http://${process.env.APP_BASEURL}`,RedirectType.replace);
-    }
+  if (!isAxiosError(error)) {
+    permanentRedirect(
+      `http://${process.env.APP_BASEURL}`,
+      RedirectType.replace
+    );
+  }
   useEffect(() => {
     // Optionally log the error to an error reporting service
     // console.log("cooooocococo")
     // console.error(error);
   }, [error]);
- 
+
   return (
     <main className="flex h-full flex-col items-center justify-center">
       <h2 className="text-center">Something went wrong!</h2>

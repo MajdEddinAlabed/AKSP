@@ -8,10 +8,10 @@ import { ReactNode } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 interface AppRootProps {
-    children: ReactNode;
-  }
-const  AppRoot: React.FC<AppRootProps> = async ({ children }) =>{
-  const communities:CommunityReadDto[] = await (await api()).communitiesAll();
+  children: ReactNode;
+}
+const AppRoot: React.FC<AppRootProps> = async ({ children }) => {
+  const communities: CommunityReadDto[] = await (await api()).communitiesAll();
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -21,5 +21,5 @@ const  AppRoot: React.FC<AppRootProps> = async ({ children }) =>{
       </body>
     </html>
   );
-}
-export default AppRoot
+};
+export default AppRoot;

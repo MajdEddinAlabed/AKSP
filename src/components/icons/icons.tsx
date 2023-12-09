@@ -119,7 +119,7 @@ export const dropCommunitiesIcon = () => (
   </svg>
 );
 
-export const emailIcon =  (
+export const emailIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className="h-5 w-5 text-gray-400"
@@ -149,7 +149,7 @@ export const passwordIcon = (
     />
   </svg>
 );
-export const displayNameIcon =  (
+export const displayNameIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className="h-5 w-5 text-gray-400 "
