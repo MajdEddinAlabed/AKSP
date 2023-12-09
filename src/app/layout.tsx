@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "src/components/globals.css";
-import Header from "../components/header/header";
-import Footer from "../components/footer/footer";
-import { BackAPIClient as api } from "@/src/bClient/client";
-
-const inter = Inter({ subsets: ["latin"] });
+import "@/src/components/globals.css";
+import AppRoot from "../components/root/app";
 
 export const metadata: Metadata = {
   title: "ASKP",
@@ -17,14 +12,5 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const communities = await (await api()).communitiesAll();
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Header communities={communities} />
-        {children}
-        <Footer />
-      </body>
-    </html>
-  );
+  return <AppRoot>{children}</AppRoot>;
 }

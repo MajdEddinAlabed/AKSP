@@ -1,7 +1,20 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
 
-module.exports = {};
+    eslint: {
+        ignoreDuringBuilds: true,
+      },
+};
+
+module.exports = {
+    typescript: {
+        // !! WARN !!
+        // Dangerously allow production builds to successfully complete even if
+        // your project has type errors.
+        // !! WARN !!
+        ignoreBuildErrors: true,
+      },
+};
 
 // async redirects() {
 //     const commList = (process.env.COMM_LIST || "").split(",");

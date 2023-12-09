@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { questionIcon, communitiesIcon, homepageIcon } from "../icons/icons";
+import { RedirectType, permanentRedirect } from "next/navigation";
 
 const links = [
-  { name: "Home page", href: "/", icon: homepageIcon },
+  { name: "Home page", href: `/`, icon: homepageIcon },
   { name: "Communities", href: "/communities", icon: communitiesIcon },
   // { name: "Sign Up", href: "/signUp", icon: questionIcon },
 ];

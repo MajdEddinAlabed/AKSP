@@ -957,12 +957,11 @@ export class Client implements IClient {
             },
             cancelToken
         };
-
         return this.instance.request(options_).catch((_error: any) => {
             if (isAxiosError(_error) && _error.response) {
                 return _error.response;
             } else {
-                throw _error;
+                permanentRedirect(`http://${process.env.APP_BASEURL}`,RedirectType.replace);
             }
         }).then((_response: AxiosResponse) => {
             return this.processCommunitiesAll(_response);
@@ -983,6 +982,9 @@ export class Client implements IClient {
             return Promise.resolve<CommunityReadDto[]>(response.data);
 
         } else if (status !== 200 && status !== 204) {
+            if(status == 400){
+                permanentRedirect(`http://${process.env.APP_BASEURL}`,RedirectType.replace);
+            }
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }

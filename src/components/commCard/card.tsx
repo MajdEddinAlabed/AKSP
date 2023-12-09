@@ -4,6 +4,7 @@ import Link from "next/link";
 import "./card.css";
 import { useState } from "react";
 import tinycolor from "tinycolor2";
+import { CommunityCard } from "../commDropdown/CommunityCard";
 
 // Function to generate a random color
 function getRandomColor(existingColors: string | string[]) {
@@ -21,27 +22,6 @@ function generateRandomColors(numCards: number) {
     colors.push(getRandomColor(colors));
   }
   return colors;
-}
-
-function CommunityCard({
-  name,
-  description,
-  bgColor,
-}: CommunityReadDto & { bgColor: string }) {
-  return (
-    <div className="ag-courses_item">
-      <Link href="/q" className="ag-courses-item_link">
-        <div
-          className="ag-courses-item_bg"
-          style={{ backgroundColor: bgColor }}
-        ></div>
-        <div className="ag-courses-item_title">{name}</div>
-        <div className="ag-courses-item_date-box">
-          <span className="ag-courses-item_date">{description}</span>
-        </div>
-      </Link>
-    </div>
-  );
 }
 
 // Usage in Communities component
