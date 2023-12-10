@@ -3,7 +3,7 @@ import { DropDown } from "../mainDropdown/dropDown";
 import HeaderButtons from "../navLinks/headerButtons";
 import "@/src/components/globals.css";
 import "@/src/components/header/header.css";
-import { CommDropdown } from "../commDropdown/commDropdown";
+import { CommDropdown } from "../communityUi/commDropdown";
 import { SearchBox } from "../searchBox/searchBox";
 import { Logo } from "../logo/logo";
 import { CommunityReadDto } from "@/src/lib/types";

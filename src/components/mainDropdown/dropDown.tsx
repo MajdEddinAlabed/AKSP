@@ -1,7 +1,7 @@
 import { Popover } from "@headlessui/react";
 import Transitions from "../transition/transition";
 import { xIcon, threeLinesLeft } from "../icons/icons";
-import DropdownHandler from "../handleDropdown/dropdownHandler";
+import DropdownHandler from "../../lib/handleDropdown/dropdownHandler";
 
 export const DropDown = () => {
   const { isOpen, toggleDropdown, closeDropdown, dropdownRef } =
@@ -24,7 +24,6 @@ export const DropDown = () => {
                 {isOpen ? xIcon() : threeLinesLeft()}
               </a>
             </Popover.Button>
-
             <Transitions isOpen={isOpen}>
               <Popover.Panel
                 className="absolute top-19 z-10"
@@ -33,8 +32,7 @@ export const DropDown = () => {
                 {/* Your dropdown menu content goes here */}
                 <div className="p-4 text-white rounded-b border border-white border-t-black">
                   {/* button */}
-
-                  <div className=" "></div>
+                  <div className=""></div>
                 </div>
               </Popover.Panel>
             </Transitions>

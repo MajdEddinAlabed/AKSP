@@ -1,9 +1,9 @@
-import Communities from "../components/commCard/card";
+import HomePage from "../components/homePage";
 
 export default function Home() {
   return (
     <main>
-      <Communities />
+      <HomePage />
     </main>
   );
 }

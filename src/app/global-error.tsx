@@ -11,13 +11,14 @@ export default function GlobalError({
   reset: () => void;
 }) {
   if (!isAxiosError(error)) {
-    permanentRedirect(
-      `http://${process.env.APP_BASEURL}`,
-      RedirectType.replace
-    );
+    console.error("global error");
+    // permanentRedirect(
+    //   `http://${process.env.APP_BASEURL}`,
+    //   RedirectType.replace
+    // );
   }
   return (
-    <html>
+    <html lang="en">
       <body>
         <h2>Something went wrong!</h2>
         <button onClick={() => reset()}>Try again</button>

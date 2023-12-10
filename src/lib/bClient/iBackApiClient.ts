@@ -10,7 +10,7 @@
 
 import axios, { AxiosError } from 'axios';
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
-import { AnswerCreateDto, CommentCreateDto, CommunityCreateDto, CommunityReadDto, CommunityUpdateDto, QuestionCreateDto, QuestionReadDto, SavedAnswerDto, SavedQuestionDto, TagCreateDto, TagReadDto, TagUpdateDto, UserCreateDto, UserReadDto, UserUpdateDto, VoteCreateDto } from '../lib/types';
+import { AnswerCreateDto, CommentCreateDto, CommunityCreateDto, CommunityReadDto, CommunityUpdateDto, QuestionCreateDto, QuestionReadDto, SavedAnswerDto, SavedQuestionDto, TagCreateDto, TagReadDto, TagUpdateDto, UserCreateDto, UserReadDto, UserUpdateDto, VoteCreateDto } from '../types';
 import { NextResponse } from 'next/server';
 import { RedirectType, permanentRedirect } from 'next/navigation';
 
@@ -770,7 +770,9 @@ export class Client implements IClient {
             },
             cancelToken
         };
-
+console.log(url_);
+console.log(content_);
+console.log(options_);
         return this.instance.request(options_).catch((_error: any) => {
             if (isAxiosError(_error) && _error.response) {
                 return _error.response;
@@ -960,7 +962,9 @@ export class Client implements IClient {
         return this.instance.request(options_).catch((_error: any) => {
             if (isAxiosError(_error) && _error.response) {
                 return _error.response;
-            } else {
+            }
+             else {
+                console.log("re1");
                 permanentRedirect(`http://${process.env.APP_BASEURL}`,RedirectType.replace);
             }
         }).then((_response: AxiosResponse) => {
@@ -983,6 +987,7 @@ export class Client implements IClient {
 
         } else if (status !== 200 && status !== 204) {
             if(status == 400){
+                console.log("re2");
                 permanentRedirect(`http://${process.env.APP_BASEURL}`,RedirectType.replace);
             }
             const _responseText = response.data;

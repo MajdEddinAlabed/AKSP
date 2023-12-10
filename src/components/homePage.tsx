@@ -1,28 +1,11 @@
-import { BackAPIClient as api } from "@/src/bClient/client";
-import "./card.css";
+import { BackAPIClient as api } from "@/src/lib/bClient/client";
+import "/src/components/communityUi/card.css";
 import tinycolor from "tinycolor2";
-import { CommunityCard } from "../commDropdown/CommunityCard";
-
-// Function to generate a random color
-function getRandomColor(existingColors: string | string[]) {
-  let newColor;
-  do {
-    newColor = tinycolor.random().toHexString();
-  } while (existingColors.includes(newColor));
-  return newColor;
-}
-
-// Function to generate random colors for all cards
-function generateRandomColors(numCards: number) {
-  const colors: string | string[] = [];
-  for (let i = 0; i < numCards; i++) {
-    colors.push(getRandomColor(colors));
-  }
-  return colors;
-}
+import { CommunityCard } from "./communityUi/CommunityCard";
+import { generateRandomColors } from "../lib/randomCommColor";
 
 // Usage in Communities component
-export default async function Communities() {
+export default async function HomePage() {
   const communities = await (await api()).communitiesAll();
   // console.log("Communities:", communities);
   const randomColors = generateRandomColors(communities.length);

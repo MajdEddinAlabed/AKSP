@@ -1,5 +1,7 @@
 "use client";
 import { CommunityReadDto } from "@/src/lib/types";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export function CommunityCard({
   name,
@@ -7,8 +9,10 @@ export function CommunityCard({
   bgColor,
   host,
 }: CommunityReadDto & { bgColor: string }) {
+  const router = useRouter();
   const handleClick = () => {
-    window.location.href = `http://${host}.localhost:3000`;
+    // window.location.href = `http://${host}.localhost:3000`;
+   router.push("/community");
   };
 
   return (

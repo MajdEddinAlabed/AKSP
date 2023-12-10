@@ -1,5 +1,5 @@
 import { mockQuestions } from "@/src/lib/mockQuestions";
-import { BackAPIClient as api } from "@/src/bClient/client";
+import { BackAPIClient as api } from "@/src/lib/bClient/client";
 import { JSX } from "react";
 import "/src/lib/general.css";
 import { QuestionReadDto } from "@/src/lib/types";
@@ -10,7 +10,7 @@ function QuestionPreview(question: QuestionReadDto) {
   return (
     <div className="flex flex-col w-full">
       <div className="zoom">
-        <Link href={`/${question.id}`}>
+        <Link href={'/community/q'}>
           <div className="m-4 font-IBMPlexSansArabic text-right ">
             <h1 className="font-bold text-2xl">{question.title}</h1>
             <p className="font-light text-lg text-stone-300	opacity-75">
@@ -26,9 +26,9 @@ function QuestionPreview(question: QuestionReadDto) {
   );
 }
 
-export default async function Questions() {
-  const questions = await (await api()).getAllQuestion();
-  //const questions = mockQuestions;
+export default async function QuestionsList() {
+  //const questions = await (await api()).getAllQuestion();
+  const questions = mockQuestions;
   return (
     <main>
       <div className="flex flex-row items-center justify-center h-1/2">

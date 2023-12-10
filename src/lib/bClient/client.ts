@@ -3,7 +3,7 @@ import axios from "axios";
 import https from "https";
 import { Client, IClient } from "./iBackApiClient";
 import { headers } from "next/headers";
-import apidomainlist from "../lib/apidomainlist.json";
+import apidomainlist from "../apidomainlist.json";
 
 export async function BackAPIClient(): Promise<IClient> {
   let aux = axios.create({
@@ -27,7 +27,7 @@ export async function BackAPIClient(): Promise<IClient> {
   const headersList = headers();
 
   const domain = headersList.get("host") || "";
-  // console.log("domain",domain);
+  console.log("domain",domain);
   const subdomain = domain.split(".")[0];
   if (subdomain !== process.env.APP_BASEURL) {
     host = subdomain + ".";

@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import "@/src/components/globals.css";
 import Header from "@/src/components/header/header";
 import Footer from "@/src/components/footer/footer";
-import { BackAPIClient as api } from "@/src/bClient/client";
+import { BackAPIClient as api } from "@/src/lib/bClient/client";
 import { CommunityReadDto } from "@/src/lib/types";
 import { ReactNode } from "react";
 

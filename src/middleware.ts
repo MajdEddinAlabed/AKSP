@@ -20,6 +20,10 @@ export default async function middleware(req: NextRequest) {
   // if ( isCommunityAvailable ) {
   //     console.log(`/${subdomain}${req.nextUrl.pathname}`);
   try {
+    // console.log("re0");
+    // console.log(subdomain);
+    // console.log(req.nextUrl.pathname);
+    // console.log((new URL(`/${subdomain}${req.nextUrl.pathname}`, req.url)).href);
     return NextResponse.rewrite(
       new URL(`/${subdomain}${req.nextUrl.pathname}`, req.url)
     );

@@ -1,34 +1,34 @@
-// question page preview
 "use client";
 import askButton from "@/src/components/buttons/askButton";
-import "/src/app/devTime/style.css";
-import { useState } from "react";
+import "@/src/components/Style/style.css";
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import { Comment, CommentCreateDto } from "@/src/lib/types";
+import { addComment } from "@/src/lib/dataServices/commentService";
 
-export default function Question() {
+export default function Answer() {
   const [voteCount, setVoteCount] = useState(0);
+  const [isClicked, setIsClicked] = useState(false);
+  const [commentValue, setCommentValue] = useState<string>("");
+  const [comments, setComments] = useState<Comment[]>([]);
+
+  const handleClick = () => {
+    setIsClicked(true);
+  };
+
+  const handleCommentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setCommentValue(event.target.value);
+  };
+
+  const handleCommentSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setCommentValue("");
+    setIsClicked(false);
+  };
+
   return (
     <main>
       <div>
         <div className="mainWidth mx-auto">
-          <div className="flex justify-between pb-4 border-b border-white">
-            <div>
-              <h1 className="titleTextSize text-left mt-10">
-                React Redux Toolkit: Naming convention between slice and store
-              </h1>
-              <div className="flex">
-                <p className="text-sm mt-2 mr-6">
-                  <span className="subTextColor">Asked</span> today
-                </p>
-                <p className="text-sm mt-2 mr-6">
-                  <span className="subTextColor">Modified</span> today
-                </p>
-                <p className="text-sm mt-2">
-                  <span className="subTextColor">Viewed</span> 3 times
-                </p>
-              </div>
-            </div>
-            <div className="mt-9">{askButton({ width: 52 })}</div>
-          </div>
           <div className="flex mt-5">
             <div>
               {/* up button */}
@@ -74,6 +74,7 @@ export default function Question() {
                   type="button"
                   id="saves-btn-77619895"
                   aria-pressed="false"
+                  aria-label="close dialog"
                 >
                   <svg
                     aria-hidden="true"
@@ -92,53 +93,43 @@ export default function Question() {
                 </button>
               </div>
             </div>
-            {/* question content */}
+            {/* answer content */}
             <div className="ml-5">
               <div>
                 <p>
                   I hope that finally someone can answer my question ... which
                   is more of a general good to know question rather than a
                   vitally important one :-) I cannot for the life of me find a
-                  definite answer to my question whether or not the name
+                  definiteimport answer to my question whether or not the name
                   property of a Redux Toolkit slice has to correspond to the
                   property name of the reducer in the configured store. None of
                   the tutorials I read and viewed and even the docs show the
                   connection between these ...
                 </p>
-                <div className="mt-6 mb-3">
-                  <div className="flex flex-col space-y-4">
-                    <div className="flex flex-wrap">
-                      <ul className="list-none inline-flex ">
-                        <li className="inline mr-1">
-                          <a
-                            href=""
-                            className="tag bg-gray-600 rounded"
-                            aria-label="show questions tagged 'reactjs'"
-                          >
-                            reactjs
-                          </a>
-                        </li>
-                        <li className="inline mr-1">
-                          <a
-                            href=""
-                            className="tag bg-gray-600 rounded"
-                            aria-label="show questions tagged 'redux-toolkit'"
-                          >
-                            redux-toolkit
-                          </a>
-                        </li>
-                        <li className="inline mr-1">
-                          <a
-                            href=""
-                            className="tag bg-gray-600 rounded"
-                            aria-label="show questions tagged 'reduce'"
-                          >
-                            reduce
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
+
+                {/* add comment */}
+                <div>
+                  {comments.map((commentValue, index) => (
+                    <p key={index}>{commentValue.content}</p>
+                  ))}
+                  {isClicked ? (
+                    <form action={addComment}>
+                      <textarea
+                        className="textarea textarea-bordered w-full h-24 "
+                        placeholder="Type your comment here..."
+                        value={commentValue}
+                        onChange={handleCommentChange}
+                        name="content"
+                      ></textarea>
+                      <button type="submit" className="btn btn-outline">
+                        Submit
+                      </button>
+                    </form>
+                  ) : (
+                    <button className="text-blue-400 btn" onClick={handleClick}>
+                      Add a comment
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

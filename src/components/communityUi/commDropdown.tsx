@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { dropCommunitiesIcon } from "../icons/icons";
 import { CommunityReadDto } from "@/src/lib/types";
-import CommDropdownHandler from "../handleDropdown/commDropdownHandler"; // Import the DropdownHandler
+import CommDropdownHandler from "../../lib/handleDropdown/commDropdownHandler"; // Import the DropdownHandler
 import Transitions from "../transition/transition"; // Import the Transitions component if needed
 
 interface CommDropdownProps {
