@@ -1,0 +1,122 @@
+{
+  "mockCommunities": [
+    {
+      "id": 1,
+      "host": "c1",
+      "name": "Coding",
+      "description": "Coding is fun",
+      "questions": [
+        {
+          "id": 1,
+          "title": "Favorite Programming Language",
+          "date": "2023-12-10T08:59:44Z",
+          "modified": "2023-12-10T08:59:44Z",
+          "views": 0,
+          "answers": [
+            {
+              "id": 1,
+              "answer": "What is your favorite programming language?",
+              "upVotes": 0,
+              "downVotes": 0,
+              "username": "user1",
+              "date": "2023-12-10T08:59:44Z",
+              "approved": false,
+              "comments": [
+                {
+                  "id": 1,
+                  "comment": "I like Java",
+                  "username": "user2",
+                  "date": "2023-12-10T08:59:44Z"
+                },
+                {
+                  "id": 2,
+                  "comment": "I like Python",
+                  "username": "user3",
+                  "date": "2023-12-10T08:59:44Z"
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "answer": "Java",
+              "upVotes": 0,
+              "downVotes": 0,
+              "username": "user1",
+              "date": "2023-12-10T08:59:44Z",
+              "approved": false,
+              "comments": [
+                {
+                  "id": 3,
+                  "comment": "I like Java",
+                  "username": "user6",
+                  "date": "2023-12-10T08:59:44Z"
+                },
+                {
+                  "id": 4,
+                  "comment": "I like Python",
+                  "username": "user33",
+                  "date": "2023-12-10T08:59:44Z"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "Favorite IDE",
+          "date": "2023-12-10T08:59:44Z",
+          "modified": "2023-12-10T08:59:44Z",
+          "views": 0,
+          "answers": [
+            {
+              "id": 1,
+              "answer": "Explain the difference between a stack and a queue",
+              "upVotes": 0,
+              "downVotes": 0,
+              "username": "user1",
+              "date": "2023-12-10T08:59:44Z",
+              "approved": false,
+              "comments": [
+                {
+                  "id": 5,
+                  "comment": "Stack is LIFO, Queue is FIFO",
+                  "username": "user26",
+                  "date": "2023-12-10T08:59:44Z"
+                },
+                {
+                  "id": 6,
+                  "comment": "Stack is FIFO, Queue is LIFO",
+                  "username": "user37",
+                  "date": "2023-12-10T08:59:44Z"
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "answer": "Stack is LIFO, Queue is FIFO",
+              "upVotes": 0,
+              "downVotes": 0,
+              "username": "user1",
+              "date": "2023-12-10T08:59:44Z",
+              "approved": false,
+              "comments": [
+                {
+                  "id": 7,
+                  "comment": "Stack is LIFO, Queue is FIFO",
+                  "username": "user29",
+                  "date": "2023-12-10T08:59:44Z"
+                },
+                {
+                  "id": 8,
+                  "comment": "Stack is FIFO, Queue is LIFO",
+                  "username": "user32",
+                  "date": "2023-12-10T08:59:44Z"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

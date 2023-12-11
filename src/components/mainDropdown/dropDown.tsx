@@ -1,6 +1,6 @@
 import { Popover } from "@headlessui/react";
 import Transitions from "../transition/transition";
-import { xIcon, threeLinesLeft } from "../icons/icons";
+import { Icons } from "@/src/components/icons/icons";
 import DropdownHandler from "../../lib/handleDropdown/dropdownHandler";
 
 export const DropDown = () => {
@@ -21,7 +21,7 @@ export const DropDown = () => {
                   isOpen ? "text-indigo-600" : ""
                 }`}
               >
-                {isOpen ? xIcon() : threeLinesLeft()}
+                {isOpen ? Icons.xIcon : Icons.threeLinesLeft}
               </a>
             </Popover.Button>
             <Transitions isOpen={isOpen}>

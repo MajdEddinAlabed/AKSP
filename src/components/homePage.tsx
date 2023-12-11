@@ -1,6 +1,5 @@
 import { BackAPIClient as api } from "@/src/lib/bClient/client";
 import "/src/components/communityUi/card.css";
-import tinycolor from "tinycolor2";
 import { CommunityCard } from "./communityUi/CommunityCard";
 import { generateRandomColors } from "../lib/randomCommColor";
 
@@ -8,6 +7,7 @@ import { generateRandomColors } from "../lib/randomCommColor";
 export default async function HomePage() {
   const communities = await (await api()).communitiesAll();
   // console.log("Communities:", communities);
+
   const randomColors = generateRandomColors(communities.length);
 
   return (
