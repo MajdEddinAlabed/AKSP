@@ -3,7 +3,7 @@ import axios from "axios";
 import https from "https";
 import { Client, IClient } from "./iBackApiClient";
 import { headers } from "next/headers";
-import apidomainlist from "../lib/apidomainlist.json";
+import apidomainlist from "../apidomainlist.json";
 
 export async function BackAPIClient(): Promise<IClient> {
   let aux = axios.create({
@@ -27,22 +27,24 @@ export async function BackAPIClient(): Promise<IClient> {
   const headersList = headers();
 
   const domain = headersList.get("host") || "";
-  // console.log("domain",domain);
+  console.log("domain",domain);
   const subdomain = domain.split(".")[0];
   if (subdomain !== process.env.APP_BASEURL) {
     host = subdomain + ".";
   }
   let baseUrl: string = `${process.env.API_SCHEME}://${host}${process.env.API_BASEURL}`;
   if (process.env.NODE_ENV === "development") {
-    if (!apidomainlist.some((d) => d.host === host)) {
+    if (!apidomainlist.some((d) => d.host === subdomain)) {
       baseUrl = `${process.env.API_SCHEME}://${host}${process.env.API_BASEURL}`;
     } else {
-      const apidomain = apidomainlist.find((q) => q.host == host).apidomain;
+      const apidomain =
+        apidomainlist?.find((q) => q.host == subdomain)?.apidomain ??
+        `${process.env.API_SCHEME}://${process.env.API_BASEURL}`;
       baseUrl = apidomain;
     }
   }
 
-  // console.log("baseUrl: ", baseUrl);
+  console.log("baseUrl: ", baseUrl);
   let cli = new Client(baseUrl, aux);
 
   return cli;

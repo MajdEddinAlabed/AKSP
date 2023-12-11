@@ -1,6 +1,7 @@
+"use client";
 // useSignUp.ts
 import { useState } from "react";
-import { BackAPIClient as api } from "@/src/bClient/client";
+// import { BackAPIClient as api } from "@/src/bClient/client";
 import { UserCreateDto } from "@/src/lib/types";
 
 export function useSignUp() {
@@ -23,7 +24,7 @@ export function useSignUp() {
     e.preventDefault();
 
     try {
-      await (await api()).usersPOST(formData);
+      // await (await api()).usersPOST(formData);
       // Registration successful, you might want to redirect or show a success message.
     } catch (error) {
       // Handle registration error (e.g., display an error message).

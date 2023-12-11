@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { dropCommunitiesIcon } from "../icons/icons";
+import { Icons } from "@/src/components/icons/icons";
 import { CommunityReadDto } from "@/src/lib/types";
-import CommDropdownHandler from "../handleDropdown/commDropdownHandler"; // Import the DropdownHandler
-import Transitions from "../transition/transition"; // Import the Transitions component if needed
+import CommDropdownHandler from "../../lib/handleDropdown/commDropdownHandler";
+import Transitions from "../transition/transition";
 
 interface CommDropdownProps {
   communities: CommunityReadDto[];
@@ -14,8 +14,7 @@ export const CommDropdown = ({ communities }: CommDropdownProps) => {
   return (
     <div>
       <div className="relative inline-block" ref={dropdownRef}>
-        <button onClick={toggleDropdown}>{dropCommunitiesIcon()}</button>
-        {/* You might need to adjust the styling and structure based on your needs */}
+        <button onClick={toggleDropdown}>{Icons.dropCommunitiesIcon}</button>
         <Transitions isOpen={isOpen}>
           <div
             className="absolute top-19 z-10 left-[-19px] dropdown-content"

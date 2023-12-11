@@ -1,5 +1,9 @@
 // SignUp.tsx
-import { displayNameIcon, emailIcon, passwordIcon } from "@/src/components/icons/icons";
+import {
+  displayNameIcon,
+  emailIcon,
+  passwordIcon,
+} from "@/src/components/icons/icons";
 import { useSignUp } from "./useSignUp";
 
 export default function SignUp() {

@@ -28,7 +28,7 @@ body {
 
   border-radius: 28px;
 
-  height:250px;
+  height: 250px;
 }
 .ag-courses-item_link {
   display: block;
@@ -73,18 +73,14 @@ body {
   z-index: 2;
   position: relative;
   text-align: right;
-
 }
 .ag-courses-item_date {
   font-weight: bold;
   color: rgb(190, 188, 182);
 
- 
-
   -webkit-transition: color 0.5s ease;
   -o-transition: color 0.5s ease;
   transition: color 0.5s ease;
-
 }
 .ag-courses-item_bg {
   height: 110px;
@@ -102,7 +98,6 @@ body {
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
-
 
 @media only screen and (max-width: 979px) {
   .ag-courses_item {

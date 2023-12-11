@@ -10,72 +10,67 @@
 
 import axios, { AxiosError } from 'axios';
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
-import { AnswerCreateDto, CommentCreateDto, CommunityCreateDto, CommunityReadDto, CommunityUpdateDto, QuestionCreateDto, QuestionReadDto, SavedAnswerDto, SavedQuestionDto, TagCreateDto, TagReadDto, TagUpdateDto, UserCreateDto, UserReadDto, UserUpdateDto, VoteCreateDto } from '../lib/types';
+import { AnswerCreateDto, AnswerReadDto, CommentCreateDto, CommentReadDto, CommunityCreateDto, CommunityReadDto, CommunityUpdateDto, ProblemDetails, QuestionCreateDto, QuestionReadDto, SavedAnswerDto, TagCreateDto, TagReadDto, TagUpdateDto, UserCreateDto, UserReadDto, UserUpdateDto, VoteCreateDto } from '../types';
 import { NextResponse } from 'next/server';
 import { RedirectType, permanentRedirect } from 'next/navigation';
 
 export interface IClient {
     /**
-     * @return Success
+     * @return Error
      */
-    getAllAnswers(): Promise<void>;
+    getAllAnswers(): Promise<AnswerReadDto>;
     /**
-     * @return Success
+     * @return Error
      */
-    getAnswerById(id: number): Promise<void>;
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    addAnswer(body: AnswerCreateDto | undefined): Promise<void>;
+    getAnswerById(id: number): Promise<AnswerReadDto>;
     /**
      * @param body (optional) 
-     * @return No Content
+     * @return Error
      */
-    updateAnswer(id: number, body: AnswerCreateDto | undefined): Promise<void>;
-    /**
-     * @return Success
-     */
-    deleteAnswer(id: number): Promise<void>;
+    addAnswer(body: AnswerCreateDto | undefined): Promise<AnswerReadDto>;
     /**
      * @param body (optional) 
-     * @return Success
+     * @return Error
      */
-    votePOST(id: number, body: VoteCreateDto | undefined): Promise<void>;
+    updateAnswer(id: number, body: AnswerCreateDto | undefined): Promise<AnswerReadDto>;
+    /**
+     * @return Error
+     */
+    deleteAnswer(id: number): Promise<AnswerReadDto>;
     /**
      * @param body (optional) 
-     * @return Success
+     * @return Error
      */
-    voteDELETE(answerId: number, body: VoteCreateDto | undefined): Promise<void>;
+    vote(id: number, body: VoteCreateDto | undefined): Promise<VoteCreateDto>;
     /**
-     * @return Success
+     * @return Error
      */
-    getAllComments(): Promise<void>;
+    getAllComments(): Promise<CommentReadDto>;
     /**
-     * @return Success
+     * @return Error
      */
-    getCommentById(id: number): Promise<void>;
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    addComment(body: CommentCreateDto | undefined): Promise<void>;
+    getCommentById(id: number): Promise<CommentReadDto>;
     /**
      * @param body (optional) 
-     * @return No Content
+     * @return Error
      */
-    updateComment(id: number, body: CommentCreateDto | undefined): Promise<void>;
+    addComment(body: CommentCreateDto | undefined): Promise<CommentReadDto>;
     /**
-     * @return Success
+     * @param body (optional) 
+     * @return Error
      */
-    deleteComment(id: number): Promise<void>;
+    updateComment(id: number, body: CommentCreateDto | undefined): Promise<ProblemDetails>;
+    /**
+     * @return Error
+     */
+    deleteComment(id: number): Promise<ProblemDetails>;
     /**
      * @return Success
      */
     communitiesAll(): Promise<CommunityReadDto[]>;
     /**
      * @param body (optional) 
-     * @return Success
+     * @return Created
      */
     communitiesPOST(body: CommunityCreateDto | undefined): Promise<CommunityReadDto>;
     /**
@@ -84,45 +79,35 @@ export interface IClient {
     getCommunityById(id: number): Promise<CommunityReadDto>;
     /**
      * @param body (optional) 
-     * @return Success
+     * @return No Content
      */
-    communitiesPUT(id: number, body: CommunityUpdateDto | undefined): Promise<void>;
+    communitiesPUT(id: number, body: CommunityUpdateDto | undefined): Promise<CommunityReadDto>;
     /**
-     * @return Success
+     * @return No Content
      */
     communitiesDELETE(id: number): Promise<void>;
     /**
-     * @return Success
+     * @return Error
      */
     getAllQuestion(): Promise<QuestionReadDto[]>;
     /**
-     * @return Success
+     * @return Error
      */
     getQuestionById(id: number): Promise<QuestionReadDto>;
     /**
      * @param body (optional) 
-     * @return Created
+     * @return Error
      */
-    createQuestion(body: QuestionCreateDto | undefined): Promise<void>;
+    createQuestion(body: QuestionCreateDto | undefined): Promise<QuestionReadDto>;
     /**
      * @param body (optional) 
-     * @return No Content
+     * @return Error
      */
-    updateQuestion(id: number, body: QuestionCreateDto | undefined): Promise<void>;
+    updateQuestion(id: number, body: QuestionCreateDto | undefined): Promise<QuestionReadDto>;
     /**
-     * @return Success
+     * @return Error
      */
-    delete(id: number): Promise<void>;
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    votePOST2(id: number, body: VoteCreateDto | undefined): Promise<void>;
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    voteDELETE2(questionId: number, body: VoteCreateDto | undefined): Promise<void>;
+    delete(id: number): Promise<QuestionReadDto>;
     /**
      * @return Success
      */
@@ -130,59 +115,22 @@ export interface IClient {
     /**
      * @return Success
      */
-    savedquestions(): Promise<SavedQuestionDto[]>;
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    saveanswer(body: SavedAnswerDto | undefined): Promise<void>;
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    unsaveanswer(body: SavedAnswerDto | undefined): Promise<void>;
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    savequestion(body: SavedQuestionDto | undefined): Promise<void>;
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    unsavequestion(body: SavedQuestionDto | undefined): Promise<void>;
-    /**
-     * @return Success
-     */
     savedanswerGET(id: number): Promise<SavedAnswerDto>;
     /**
-     * @return Success
-     */
-    savedquestionGET(id: number): Promise<SavedQuestionDto>;
-    /**
      * @param body (optional) 
-     * @return No Content
+     * @return Created
      */
-    savedanswerPUT(id: number, body: SavedAnswerDto | undefined): Promise<void>;
+    saveanswer(body: SavedAnswerDto | undefined): Promise<SavedAnswerDto>;
     /**
-     * @param body (optional) 
      * @return No Content
-     */
-    savedquestionPUT(id: number, body: SavedQuestionDto | undefined): Promise<void>;
-    /**
-     * @return Success
      */
     savedanswerDELETE(id: number): Promise<void>;
     /**
-     * @return Success
-     */
-    savedquestionDELETE(id: number): Promise<void>;
-    /**
-     * @return Success
+     * @return Error
      */
     getAllTags(): Promise<TagReadDto[]>;
     /**
-     * @return Success
+     * @return Error
      */
     getTagById(id: number): Promise<TagReadDto>;
     /**
@@ -194,9 +142,9 @@ export interface IClient {
      * @param body (optional) 
      * @return No Content
      */
-    updateTag(id: number, body: TagUpdateDto | undefined): Promise<void>;
+    updateTag(id: number, body: TagUpdateDto | undefined): Promise<TagReadDto>;
     /**
-     * @return Success
+     * @return No Content
      */
     deleteTag(id: number): Promise<void>;
     /**
@@ -205,7 +153,7 @@ export interface IClient {
     usersAll(): Promise<UserReadDto[]>;
     /**
      * @param body (optional) 
-     * @return Success
+     * @return Created
      */
     usersPOST(body: UserCreateDto | undefined): Promise<UserReadDto>;
     /**
@@ -214,11 +162,11 @@ export interface IClient {
     getUserById(id: number): Promise<UserReadDto>;
     /**
      * @param body (optional) 
-     * @return Success
+     * @return No Content
      */
     usersPUT(id: number, body: UserUpdateDto | undefined): Promise<void>;
     /**
-     * @return Success
+     * @return No Content
      */
     usersDELETE(id: number): Promise<void>;
 }
@@ -237,9 +185,9 @@ export class Client implements IClient {
     }
 
     /**
-     * @return Success
+     * @return Error
      */
-    getAllAnswers( cancelToken?: CancelToken | undefined): Promise<void> {
+    getAllAnswers( cancelToken?: CancelToken | undefined): Promise<AnswerReadDto> {
         let url_ = this.baseUrl + "/Answers/GetAllAnswers";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -247,6 +195,7 @@ export class Client implements IClient {
             method: "GET",
             url: url_,
             headers: {
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -262,7 +211,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processGetAllAnswers(response: AxiosResponse): Promise<void> {
+    protected processGetAllAnswers(response: AxiosResponse): Promise<AnswerReadDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -272,21 +221,20 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
+        {
             const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
+            let resultdefault: any = null;
+            let resultDatadefault  = _responseText;
+            resultdefault = JSON.parse(resultDatadefault);
+            return Promise.resolve<AnswerReadDto>(resultdefault);
 
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<void>(null as any);
     }
 
     /**
-     * @return Success
+     * @return Error
      */
-    getAnswerById(id: number, cancelToken?: CancelToken | undefined): Promise<void> {
+    getAnswerById(id: number, cancelToken?: CancelToken | undefined): Promise<AnswerReadDto> {
         let url_ = this.baseUrl + "/Answers/GetAnswerById/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -297,6 +245,7 @@ export class Client implements IClient {
             method: "GET",
             url: url_,
             headers: {
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -312,7 +261,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processGetAnswerById(response: AxiosResponse): Promise<void> {
+    protected processGetAnswerById(response: AxiosResponse): Promise<AnswerReadDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -322,32 +271,21 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else {
+        {
             const _responseText = response.data;
             let resultdefault: any = null;
             let resultDatadefault  = _responseText;
             resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
+            return Promise.resolve<AnswerReadDto>(resultdefault);
 
         }
     }
 
     /**
      * @param body (optional) 
-     * @return Success
+     * @return Error
      */
-    addAnswer(body: AnswerCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
+    addAnswer(body: AnswerCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<AnswerReadDto> {
         let url_ = this.baseUrl + "/Answers/AddAnswer";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -359,6 +297,7 @@ export class Client implements IClient {
             url: url_,
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -374,7 +313,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processAddAnswer(response: AxiosResponse): Promise<void> {
+    protected processAddAnswer(response: AxiosResponse): Promise<AnswerReadDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -384,22 +323,21 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
+        {
             const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
+            let resultdefault: any = null;
+            let resultDatadefault  = _responseText;
+            resultdefault = JSON.parse(resultDatadefault);
+            return Promise.resolve<AnswerReadDto>(resultdefault);
 
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<void>(null as any);
     }
 
     /**
      * @param body (optional) 
-     * @return No Content
+     * @return Error
      */
-    updateAnswer(id: number, body: AnswerCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
+    updateAnswer(id: number, body: AnswerCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<AnswerReadDto> {
         let url_ = this.baseUrl + "/Answers/UpdateAnswer/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -414,6 +352,7 @@ export class Client implements IClient {
             url: url_,
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -429,7 +368,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processUpdateAnswer(response: AxiosResponse): Promise<void> {
+    protected processUpdateAnswer(response: AxiosResponse): Promise<AnswerReadDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -439,38 +378,20 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 204) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = JSON.parse(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else {
+        {
             const _responseText = response.data;
             let resultdefault: any = null;
             let resultDatadefault  = _responseText;
             resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
+            return Promise.resolve<AnswerReadDto>(resultdefault);
 
         }
     }
 
     /**
-     * @return Success
+     * @return Error
      */
-    deleteAnswer(id: number, cancelToken?: CancelToken | undefined): Promise<void> {
+    deleteAnswer(id: number, cancelToken?: CancelToken | undefined): Promise<AnswerReadDto> {
         let url_ = this.baseUrl + "/Answers/DeleteAnswer/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -481,6 +402,7 @@ export class Client implements IClient {
             method: "DELETE",
             url: url_,
             headers: {
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -496,7 +418,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processDeleteAnswer(response: AxiosResponse): Promise<void> {
+    protected processDeleteAnswer(response: AxiosResponse): Promise<AnswerReadDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -506,40 +428,22 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = JSON.parse(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else {
+        {
             const _responseText = response.data;
             let resultdefault: any = null;
             let resultDatadefault  = _responseText;
             resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
+            return Promise.resolve<AnswerReadDto>(resultdefault);
 
         }
     }
 
     /**
      * @param body (optional) 
-     * @return Success
+     * @return Error
      */
-    votePOST(id: number, body: VoteCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/Answers/VoteSubmit/{id}/vote";
+    vote(id: number, body: VoteCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<VoteCreateDto> {
+        let url_ = this.baseUrl + "/Answers/VoteHandle/{id}/vote";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -553,6 +457,7 @@ export class Client implements IClient {
             url: url_,
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -564,11 +469,11 @@ export class Client implements IClient {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.processVotePOST(_response);
+            return this.processVote(_response);
         });
     }
 
-    protected processVotePOST(response: AxiosResponse): Promise<void> {
+    protected processVote(response: AxiosResponse): Promise<VoteCreateDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -578,76 +483,17 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
+        {
+            
+            return Promise.resolve<VoteCreateDto>(response.data);
 
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<void>(null as any);
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
+     * @return Error
      */
-    voteDELETE(answerId: number, body: VoteCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/Answers/DeleteVote/{answerId}/vote";
-        if (answerId === undefined || answerId === null)
-            throw new Error("The parameter 'answerId' must be defined.");
-        url_ = url_.replace("{answerId}", encodeURIComponent("" + answerId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "DELETE",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processVoteDELETE(_response);
-        });
-    }
-
-    protected processVoteDELETE(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<void>(null as any);
-    }
-
-    /**
-     * @return Success
-     */
-    getAllComments( cancelToken?: CancelToken | undefined): Promise<void> {
+    getAllComments( cancelToken?: CancelToken | undefined): Promise<CommentReadDto> {
         let url_ = this.baseUrl + "/Comment/GetAllComments";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -655,6 +501,7 @@ export class Client implements IClient {
             method: "GET",
             url: url_,
             headers: {
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -670,7 +517,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processGetAllComments(response: AxiosResponse): Promise<void> {
+    protected processGetAllComments(response: AxiosResponse): Promise<CommentReadDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -680,21 +527,20 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
+        {
             const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
+            let resultdefault: any = null;
+            let resultDatadefault  = _responseText;
+            resultdefault = JSON.parse(resultDatadefault);
+            return Promise.resolve<CommentReadDto>(resultdefault);
 
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<void>(null as any);
     }
 
     /**
-     * @return Success
+     * @return Error
      */
-    getCommentById(id: number, cancelToken?: CancelToken | undefined): Promise<void> {
+    getCommentById(id: number, cancelToken?: CancelToken | undefined): Promise<CommentReadDto> {
         let url_ = this.baseUrl + "/Comment/GetCommentById/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -705,6 +551,7 @@ export class Client implements IClient {
             method: "GET",
             url: url_,
             headers: {
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -720,7 +567,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processGetCommentById(response: AxiosResponse): Promise<void> {
+    protected processGetCommentById(response: AxiosResponse): Promise<CommentReadDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -730,32 +577,21 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else {
+        {
             const _responseText = response.data;
             let resultdefault: any = null;
             let resultDatadefault  = _responseText;
             resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
+            return Promise.resolve<CommentReadDto>(resultdefault);
 
         }
     }
 
     /**
      * @param body (optional) 
-     * @return Success
+     * @return Error
      */
-    addComment(body: CommentCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
+    addComment(body: CommentCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<CommentReadDto> {
         let url_ = this.baseUrl + "/Comment/AddComment";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -767,6 +603,7 @@ export class Client implements IClient {
             url: url_,
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -782,7 +619,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processAddComment(response: AxiosResponse): Promise<void> {
+    protected processAddComment(response: AxiosResponse): Promise<CommentReadDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -792,22 +629,21 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
+        {
             const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
+            let resultdefault: any = null;
+            let resultDatadefault  = _responseText;
+            resultdefault = JSON.parse(resultDatadefault);
+            return Promise.resolve<CommentReadDto>(resultdefault);
 
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<void>(null as any);
     }
 
     /**
      * @param body (optional) 
-     * @return No Content
+     * @return Error
      */
-    updateComment(id: number, body: CommentCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
+    updateComment(id: number, body: CommentCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<ProblemDetails> {
         let url_ = this.baseUrl + "/Comment/UpdateComment/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -822,6 +658,7 @@ export class Client implements IClient {
             url: url_,
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -837,7 +674,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processUpdateComment(response: AxiosResponse): Promise<void> {
+    protected processUpdateComment(response: AxiosResponse): Promise<ProblemDetails> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -847,38 +684,20 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 204) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = JSON.parse(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else {
+        {
             const _responseText = response.data;
             let resultdefault: any = null;
             let resultDatadefault  = _responseText;
             resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
+            return Promise.resolve<ProblemDetails>(resultdefault);
 
         }
     }
 
     /**
-     * @return Success
+     * @return Error
      */
-    deleteComment(id: number, cancelToken?: CancelToken | undefined): Promise<void> {
+    deleteComment(id: number, cancelToken?: CancelToken | undefined): Promise<ProblemDetails> {
         let url_ = this.baseUrl + "/Comment/DeleteComment/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -889,6 +708,7 @@ export class Client implements IClient {
             method: "DELETE",
             url: url_,
             headers: {
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -904,7 +724,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processDeleteComment(response: AxiosResponse): Promise<void> {
+    protected processDeleteComment(response: AxiosResponse): Promise<ProblemDetails> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -914,30 +734,12 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = JSON.parse(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else {
+        {
             const _responseText = response.data;
             let resultdefault: any = null;
             let resultDatadefault  = _responseText;
             resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
+            return Promise.resolve<ProblemDetails>(resultdefault);
 
         }
     }
@@ -957,12 +759,13 @@ export class Client implements IClient {
             },
             cancelToken
         };
-
         return this.instance.request(options_).catch((_error: any) => {
             if (isAxiosError(_error) && _error.response) {
                 return _error.response;
-            } else {
-                throw _error;
+            }
+             else {
+                console.log("re1");
+                permanentRedirect(`http://${process.env.APP_BASEURL}`,RedirectType.replace);
             }
         }).then((_response: AxiosResponse) => {
             return this.processCommunitiesAll(_response);
@@ -983,6 +786,10 @@ export class Client implements IClient {
             return Promise.resolve<CommunityReadDto[]>(response.data);
 
         } else if (status !== 200 && status !== 204) {
+            if(status == 400){
+                console.log("re2");
+                permanentRedirect(`http://${process.env.APP_BASEURL}`,RedirectType.replace);
+            }
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
@@ -991,7 +798,7 @@ export class Client implements IClient {
 
     /**
      * @param body (optional) 
-     * @return Success
+     * @return Created
      */
     communitiesPOST(body: CommunityCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<CommunityReadDto> {
         let url_ = this.baseUrl + "/api/communities";
@@ -1031,12 +838,12 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
+        if (status === 201) {
             const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = JSON.parse(resultData200);
-            return Promise.resolve<CommunityReadDto>(result200);
+            let result201: any = null;
+            let resultData201  = _responseText;
+            result201 = JSON.parse(resultData201);
+            return Promise.resolve<CommunityReadDto>(result201);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
@@ -1101,9 +908,9 @@ export class Client implements IClient {
 
     /**
      * @param body (optional) 
-     * @return Success
+     * @return No Content
      */
-    communitiesPUT(id: number, body: CommunityUpdateDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
+    communitiesPUT(id: number, body: CommunityUpdateDto | undefined, cancelToken?: CancelToken | undefined): Promise<CommunityReadDto> {
         let url_ = this.baseUrl + "/api/communities/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -1118,6 +925,7 @@ export class Client implements IClient {
             url: url_,
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "text/plain"
             },
             cancelToken
         };
@@ -1133,7 +941,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processCommunitiesPUT(response: AxiosResponse): Promise<void> {
+    protected processCommunitiesPUT(response: AxiosResponse): Promise<CommunityReadDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -1143,19 +951,22 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
+        if (status === 204) {
             const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
+            let result204: any = null;
+            let resultData204  = _responseText;
+            result204 = JSON.parse(resultData204);
+            return Promise.resolve<CommunityReadDto>(result204);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<CommunityReadDto>(null as any);
     }
 
     /**
-     * @return Success
+     * @return No Content
      */
     communitiesDELETE(id: number, cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/communities/{id}";
@@ -1193,7 +1004,7 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
+        if (status === 204) {
             const _responseText = response.data;
             return Promise.resolve<void>(null as any);
 
@@ -1205,7 +1016,7 @@ export class Client implements IClient {
     }
 
     /**
-     * @return Success
+     * @return Error
      */
     getAllQuestion( cancelToken?: CancelToken | undefined): Promise<QuestionReadDto[]> {
         let url_ = this.baseUrl + "/Question/GetAllQuestion";
@@ -1224,6 +1035,7 @@ export class Client implements IClient {
             if (isAxiosError(_error) && _error.response) {
                 return _error.response;
             } else {
+                console.log("re3");
                 permanentRedirect(`http://${process.env.APP_BASEURL}`,RedirectType.replace);
             }
         }).then((_response: AxiosResponse) => {
@@ -1241,21 +1053,24 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
-            return Promise.resolve<QuestionReadDto[]>(response.data);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            if(status == 400){
-                permanentRedirect(`http://${process.env.APP_BASEURL}`,RedirectType.replace);
+        {
+            if (status === 200) {
+                return Promise.resolve<QuestionReadDto[]>(response.data);
+    
+            } else if (status !== 200 && status !== 204) {
+                const _responseText = response.data;
+                if(status == 400){
+                    console.log("re4");
+                    permanentRedirect(`http://${process.env.APP_BASEURL}`,RedirectType.replace);
+                }
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            return Promise.resolve<QuestionReadDto[]>(null as any);
         }
-        return Promise.resolve<QuestionReadDto[]>(null as any);
     }
 
     /**
-     * @return Success
+     * @return Error
      */
     getQuestionById(id: number, cancelToken?: CancelToken | undefined): Promise<QuestionReadDto> {
         let url_ = this.baseUrl + "/Question/GetQuestionById/{id}";
@@ -1294,35 +1109,18 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = JSON.parse(resultData200);
-            return Promise.resolve<QuestionReadDto>(result200);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
+        {
+            
+            return Promise.resolve<QuestionReadDto>(response.data);
 
         }
     }
 
     /**
      * @param body (optional) 
-     * @return Created
+     * @return Error
      */
-    createQuestion(body: QuestionCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
+    createQuestion(body: QuestionCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<QuestionReadDto> {
         let url_ = this.baseUrl + "/Question/CreateQuestion";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1334,6 +1132,7 @@ export class Client implements IClient {
             url: url_,
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -1349,7 +1148,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processCreateQuestion(response: AxiosResponse): Promise<void> {
+    protected processCreateQuestion(response: AxiosResponse): Promise<QuestionReadDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -1359,32 +1158,21 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 201) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = JSON.parse(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else {
+        {
             const _responseText = response.data;
             let resultdefault: any = null;
             let resultDatadefault  = _responseText;
             resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
+            return Promise.resolve<QuestionReadDto>(resultdefault);
 
         }
     }
 
     /**
      * @param body (optional) 
-     * @return No Content
+     * @return Error
      */
-    updateQuestion(id: number, body: QuestionCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
+    updateQuestion(id: number, body: QuestionCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<QuestionReadDto> {
         let url_ = this.baseUrl + "/Question/UpdateQuestion/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -1399,6 +1187,7 @@ export class Client implements IClient {
             url: url_,
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -1414,7 +1203,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processUpdateQuestion(response: AxiosResponse): Promise<void> {
+    protected processUpdateQuestion(response: AxiosResponse): Promise<QuestionReadDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -1424,38 +1213,20 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 204) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = JSON.parse(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else {
+        {
             const _responseText = response.data;
             let resultdefault: any = null;
             let resultDatadefault  = _responseText;
             resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
+            return Promise.resolve<QuestionReadDto>(resultdefault);
 
         }
     }
 
     /**
-     * @return Success
+     * @return Error
      */
-    delete(id: number, cancelToken?: CancelToken | undefined): Promise<void> {
+    delete(id: number, cancelToken?: CancelToken | undefined): Promise<QuestionReadDto> {
         let url_ = this.baseUrl + "/Question/Delete/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -1466,6 +1237,7 @@ export class Client implements IClient {
             method: "DELETE",
             url: url_,
             headers: {
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -1481,7 +1253,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processDelete(response: AxiosResponse): Promise<void> {
+    protected processDelete(response: AxiosResponse): Promise<QuestionReadDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -1491,142 +1263,14 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = JSON.parse(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else {
+        {
             const _responseText = response.data;
             let resultdefault: any = null;
             let resultDatadefault  = _responseText;
             resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
+            return Promise.resolve<QuestionReadDto>(resultdefault);
 
         }
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    votePOST2(id: number, body: VoteCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/Question/VoteSubmit/{id}/vote";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processVotePOST2(_response);
-        });
-    }
-
-    protected processVotePOST2(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<void>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    voteDELETE2(questionId: number, body: VoteCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/Question/DeleteVote/{questionId}/vote";
-        if (questionId === undefined || questionId === null)
-            throw new Error("The parameter 'questionId' must be defined.");
-        url_ = url_.replace("{questionId}", encodeURIComponent("" + questionId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "DELETE",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processVoteDELETE2(_response);
-        });
-    }
-
-    protected processVoteDELETE2(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -1683,265 +1327,6 @@ export class Client implements IClient {
     /**
      * @return Success
      */
-    savedquestions( cancelToken?: CancelToken | undefined): Promise<SavedQuestionDto[]> {
-        let url_ = this.baseUrl + "/Saves/GetSavedQuestions/savedquestions";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "GET",
-            url: url_,
-            headers: {
-                "Accept": "application/json"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processSavedquestions(_response);
-        });
-    }
-
-    protected processSavedquestions(response: AxiosResponse): Promise<SavedQuestionDto[]> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = JSON.parse(resultData200);
-            return Promise.resolve<SavedQuestionDto[]>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<SavedQuestionDto[]>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    saveanswer(body: SavedAnswerDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/Saves/SaveAnswer/saveanswer";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processSaveanswer(_response);
-        });
-    }
-
-    protected processSaveanswer(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<void>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    unsaveanswer(body: SavedAnswerDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/Saves/UnsaveAnswer/unsaveanswer";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processUnsaveanswer(_response);
-        });
-    }
-
-    protected processUnsaveanswer(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<void>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    savequestion(body: SavedQuestionDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/Saves/SaveQuestion/savequestion";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processSavequestion(_response);
-        });
-    }
-
-    protected processSavequestion(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<void>(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    unsavequestion(body: SavedQuestionDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/Saves/UnsaveQuestion/unsavequestion";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processUnsavequestion(_response);
-        });
-    }
-
-    protected processUnsavequestion(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<void>(null as any);
-    }
-
-    /**
-     * @return Success
-     */
     savedanswerGET(id: number, cancelToken?: CancelToken | undefined): Promise<SavedAnswerDto> {
         let url_ = this.baseUrl + "/Saves/GetSavedAnswerById/savedanswer/{id}";
         if (id === undefined || id === null)
@@ -1986,37 +1371,29 @@ export class Client implements IClient {
             result200 = JSON.parse(resultData200);
             return Promise.resolve<SavedAnswerDto>(result200);
 
-        } else if (status === 404) {
+        } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
-
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
+        return Promise.resolve<SavedAnswerDto>(null as any);
     }
 
     /**
-     * @return Success
+     * @param body (optional) 
+     * @return Created
      */
-    savedquestionGET(id: number, cancelToken?: CancelToken | undefined): Promise<SavedQuestionDto> {
-        let url_ = this.baseUrl + "/Saves/GetSavedQuestionById/savedquestion/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+    saveanswer(body: SavedAnswerDto | undefined, cancelToken?: CancelToken | undefined): Promise<SavedAnswerDto> {
+        let url_ = this.baseUrl + "/Saves/SaveAnswer/saveanswer";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_: AxiosRequestConfig = {
-            method: "GET",
+            data: content_,
+            method: "POST",
             url: url_,
             headers: {
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             },
             cancelToken
@@ -2029,11 +1406,11 @@ export class Client implements IClient {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.processSavedquestionGET(_response);
+            return this.processSaveanswer(_response);
         });
     }
 
-    protected processSavedquestionGET(response: AxiosResponse): Promise<SavedQuestionDto> {
+    protected processSaveanswer(response: AxiosResponse): Promise<SavedAnswerDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -2043,176 +1420,22 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
+        if (status === 201) {
             const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = JSON.parse(resultData200);
-            return Promise.resolve<SavedQuestionDto>(result200);
+            let result201: any = null;
+            let resultData201  = _responseText;
+            result201 = JSON.parse(resultData201);
+            return Promise.resolve<SavedAnswerDto>(result201);
 
-        } else if (status === 404) {
+        } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
-
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
+        return Promise.resolve<SavedAnswerDto>(null as any);
     }
 
     /**
-     * @param body (optional) 
      * @return No Content
-     */
-    savedanswerPUT(id: number, body: SavedAnswerDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/Saves/UpdateSavedAnswer/savedanswer/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "PUT",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processSavedanswerPUT(_response);
-        });
-    }
-
-    protected processSavedanswerPUT(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 204) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = JSON.parse(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
-
-        }
-    }
-
-    /**
-     * @param body (optional) 
-     * @return No Content
-     */
-    savedquestionPUT(id: number, body: SavedQuestionDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/Saves/UpdateSavedQuestion/savedquestion/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "PUT",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processSavedquestionPUT(_response);
-        });
-    }
-
-    protected processSavedquestionPUT(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 204) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = JSON.parse(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
-
-        }
-    }
-
-    /**
-     * @return Success
      */
     savedanswerDELETE(id: number, cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/Saves/DeleteSavedAnswer/savedanswer/{id}";
@@ -2250,103 +1473,19 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
+        if (status === 204) {
             const _responseText = response.data;
             return Promise.resolve<void>(null as any);
 
-        } else if (status === 404) {
+        } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = JSON.parse(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
-
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
+        return Promise.resolve<void>(null as any);
     }
 
     /**
-     * @return Success
-     */
-    savedquestionDELETE(id: number, cancelToken?: CancelToken | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/Saves/DeleteSavedQuestion/savedquestion/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "DELETE",
-            url: url_,
-            headers: {
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processSavedquestionDELETE(_response);
-        });
-    }
-
-    protected processSavedquestionDELETE(response: AxiosResponse): Promise<void> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (let k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = JSON.parse(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
-
-        }
-    }
-
-    /**
-     * @return Success
+     * @return Error
      */
     getAllTags( cancelToken?: CancelToken | undefined): Promise<TagReadDto[]> {
         let url_ = this.baseUrl + "/Tag/GetAllTags";
@@ -2382,22 +1521,18 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
+        {
             const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = JSON.parse(resultData200);
-            return Promise.resolve<TagReadDto[]>(result200);
+            let resultdefault: any = null;
+            let resultDatadefault  = _responseText;
+            resultdefault = JSON.parse(resultDatadefault);
+            return Promise.resolve<TagReadDto[]>(resultdefault);
 
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<TagReadDto[]>(null as any);
     }
 
     /**
-     * @return Success
+     * @return Error
      */
     getTagById(id: number, cancelToken?: CancelToken | undefined): Promise<TagReadDto> {
         let url_ = this.baseUrl + "/Tag/GetTagById/{id}";
@@ -2436,26 +1571,12 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = JSON.parse(resultData200);
-            return Promise.resolve<TagReadDto>(result200);
-
-        } else if (status === 404) {
-            const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else {
+        {
             const _responseText = response.data;
             let resultdefault: any = null;
             let resultDatadefault  = _responseText;
             resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
+            return Promise.resolve<TagReadDto>(resultdefault);
 
         }
     }
@@ -2509,28 +1630,18 @@ export class Client implements IClient {
             result201 = JSON.parse(resultData201);
             return Promise.resolve<TagReadDto>(result201);
 
-        } else if (status === 400) {
+        } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = JSON.parse(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
-
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
+        return Promise.resolve<TagReadDto>(null as any);
     }
 
     /**
      * @param body (optional) 
      * @return No Content
      */
-    updateTag(id: number, body: TagUpdateDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
+    updateTag(id: number, body: TagUpdateDto | undefined, cancelToken?: CancelToken | undefined): Promise<TagReadDto> {
         let url_ = this.baseUrl + "/Tag/UpdateTag/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -2545,6 +1656,7 @@ export class Client implements IClient {
             url: url_,
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -2560,7 +1672,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processUpdateTag(response: AxiosResponse): Promise<void> {
+    protected processUpdateTag(response: AxiosResponse): Promise<TagReadDto> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -2572,34 +1684,20 @@ export class Client implements IClient {
         }
         if (status === 204) {
             const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
+            let result204: any = null;
+            let resultData204  = _responseText;
+            result204 = JSON.parse(resultData204);
+            return Promise.resolve<TagReadDto>(result204);
 
-        } else if (status === 404) {
+        } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = JSON.parse(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
-
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
+        return Promise.resolve<TagReadDto>(null as any);
     }
 
     /**
-     * @return Success
+     * @return No Content
      */
     deleteTag(id: number, cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/Tag/DeleteTag/{id}";
@@ -2637,32 +1735,15 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
+        if (status === 204) {
             const _responseText = response.data;
             return Promise.resolve<void>(null as any);
 
-        } else if (status === 404) {
+        } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
-            let result404: any = null;
-            let resultData404  = _responseText;
-            result404 = JSON.parse(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-
-        } else if (status === 400) {
-            const _responseText = response.data;
-            let result400: any = null;
-            let resultData400  = _responseText;
-            result400 = JSON.parse(resultData400);
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-
-        } else {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return throwException("Error", status, _responseText, _headers, resultdefault);
-
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
+        return Promise.resolve<void>(null as any);
     }
 
     /**
@@ -2718,7 +1799,7 @@ export class Client implements IClient {
 
     /**
      * @param body (optional) 
-     * @return Success
+     * @return Created
      */
     usersPOST(body: UserCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<UserReadDto> {
         let url_ = this.baseUrl + "/api/users";
@@ -2758,12 +1839,12 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
+        if (status === 201) {
             const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = JSON.parse(resultData200);
-            return Promise.resolve<UserReadDto>(result200);
+            let result201: any = null;
+            let resultData201  = _responseText;
+            result201 = JSON.parse(resultData201);
+            return Promise.resolve<UserReadDto>(result201);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
@@ -2828,7 +1909,7 @@ export class Client implements IClient {
 
     /**
      * @param body (optional) 
-     * @return Success
+     * @return No Content
      */
     usersPUT(id: number, body: UserUpdateDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/users/{id}";
@@ -2870,7 +1951,7 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
+        if (status === 204) {
             const _responseText = response.data;
             return Promise.resolve<void>(null as any);
 
@@ -2882,7 +1963,7 @@ export class Client implements IClient {
     }
 
     /**
-     * @return Success
+     * @return No Content
      */
     usersDELETE(id: number, cancelToken?: CancelToken | undefined): Promise<void> {
         let url_ = this.baseUrl + "/api/users/{id}";
@@ -2920,7 +2001,7 @@ export class Client implements IClient {
                 }
             }
         }
-        if (status === 200) {
+        if (status === 204) {
             const _responseText = response.data;
             return Promise.resolve<void>(null as any);
 
@@ -2931,6 +2012,7 @@ export class Client implements IClient {
         return Promise.resolve<void>(null as any);
     }
 }
+
 
 export class ApiException extends Error {
     override message: string;
@@ -2957,10 +2039,7 @@ export class ApiException extends Error {
 }
 
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
-    if (result !== null && result !== undefined)
-        throw result;
-    else
-        throw new ApiException(message, status, response, headers, null);
+    throw new ApiException(message, status, response, headers, result);
 }
 
 function isAxiosError(obj: any | undefined): obj is AxiosError {

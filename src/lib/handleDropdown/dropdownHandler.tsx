@@ -35,4 +35,4 @@ export default function DropdownHandler() {
   }, [isOpen]);
 
   return { isOpen, toggleDropdown, closeDropdown, dropdownRef };
-};
+}
