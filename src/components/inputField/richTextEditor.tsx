@@ -1,42 +1,105 @@
-import React, { useEffect, useRef } from 'react';
-import { StacksEditor } from "@stackoverflow/stacks-editor";
-import "@stackoverflow/stacks-editor/dist/styles.css";
-import "@stackoverflow/stacks";
-import "@stackoverflow/stacks/dist/css/stacks.css";
+import  "./styles.css";
+import Theme from "./themes/Theme";
+import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
+import ToolbarPlugin from "./plugins/ToolbarPlugin";
+import { HeadingNode, QuoteNode } from "@lexical/rich-text";
+import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
+import { ListItemNode, ListNode } from "@lexical/list";
+import { CodeHighlightNode, CodeNode } from "@lexical/code";
+import { AutoLinkNode, LinkNode } from "@lexical/link";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
+import { TRANSFORMERS } from "@lexical/markdown";
+import ListMaxIndentLevelPlugin from "./plugins/ListMaxIndentLevelPlugin";
+import CodeHighlightPlugin from "./plugins/CodeHighlightPlugin";
+import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
 
-export default function RichTextEditor() {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const editorRef = useRef<StacksEditor | null>(null);
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { useEffect,useState } from "react";
+import { LexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
-  useEffect(() => {
-    if (containerRef.current) {
-      // Cleanup previous instance if it exists
-      if (editorRef.current) {
-        editorRef.current.destroy();
-        editorRef.current = null;
-      }
-  
-      // Remove all child nodes
-      while (containerRef.current.firstChild) {
-        containerRef.current.firstChild.remove();
-      }
-  
-      const div = document.createElement('div');
-      containerRef.current.appendChild(div);
-      const editor = new StacksEditor(div, "*Your* **markdown** here");
-      editorRef.current = editor;
-    }
-  
-    // Cleanup function for useEffect
-    return () => {
-      if (editorRef.current) {
-        editorRef.current.destroy();
-        editorRef.current = null;
-      }
-    };
-  }, []);
 
-  // In your component
-return <div ref={containerRef} className='rich-text-editor bg-gray-800 text-white'/>;
-
+function Placeholder() {
+  return <div className="editor-placeholder">Enter Questoin details ...</div>;
 }
+
+const editorConfig = {
+  // The editor theme
+  theme: Theme,
+  // Handling of errors during update
+  onError(error:any) {
+    throw error;
+  },
+  // Any custom nodes go here
+  nodes: [
+    HeadingNode,
+    ListNode,
+    ListItemNode,
+    QuoteNode,
+    CodeNode,
+    CodeHighlightNode,
+    TableNode,
+    TableCellNode,
+    TableRowNode,
+    AutoLinkNode,
+    LinkNode
+  ],
+  namespace:"editor"
+};
+
+interface OnChangePluginProps {
+  onChange: (editorState: any) => void;
+}
+
+function OnChangePlugin({ onChange }: OnChangePluginProps) {
+  const [editor] = useLexicalComposerContext();
+  useEffect(() => {
+    return editor.registerUpdateListener(({editorState}) => {
+      onChange(editorState);
+    });
+  }, [editor, onChange]);
+  return null;
+}
+
+export default function Editor() {
+  // Inside your component
+  const [editorState, setEditorState] = useState<string | undefined>();
+  function onChange(editorState : any) {
+    // Call toJSON on the EditorState object, which produces a serialization safe string
+    const editorStateJSON = editorState.toJSON();
+    // However, we still have a JavaScript object, so we need to convert it to an actual string with JSON.stringify
+    setEditorState(JSON.stringify(editorStateJSON));
+    console.log(JSON.stringify(editorStateJSON))
+  }
+  
+  return (
+    <LexicalComposer initialConfig={editorConfig}>
+      <div className="editor-container">
+        <ToolbarPlugin />
+        <div className="editor-inner">
+          <RichTextPlugin
+            contentEditable={<ContentEditable className="editor-input" />}
+            placeholder={<Placeholder />}
+            ErrorBoundary={LexicalErrorBoundary}
+            />
+          <HistoryPlugin />
+          <AutoFocusPlugin />
+          <CodeHighlightPlugin />
+          <ListPlugin />
+          <LinkPlugin />
+          <AutoLinkPlugin />
+          <ListMaxIndentLevelPlugin maxDepth={7} />
+          <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+          <OnChangePlugin onChange={onChange}/>
+        </div>
+      </div>
+    </LexicalComposer>
+  );
+}
+
