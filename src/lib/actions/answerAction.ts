@@ -1,6 +1,6 @@
 "use server";
 import { BackAPIClient as api } from "@/src/lib/bClient/client";
-import { VoteCreateDto, VoteType } from "@/src/lib/types";
+import { VoteType } from "@/src/lib/types";
 import { AnswerCreateDto } from "../types";
 
 export async function getAllAnswers() {

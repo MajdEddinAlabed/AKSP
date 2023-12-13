@@ -1,4 +1,4 @@
-import { emailIcon, passwordIcon } from "@/src/components/icons/icons";
+import { Icons } from "@/src/components/icons/icons";
 
 export default function LogIn() {
   return (
@@ -23,7 +23,7 @@ export default function LogIn() {
           <p className="text-sm font-normal text-gray-600 mb-7">Welcome Back</p>
           {/* email */}
           <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
-            {emailIcon}
+            {Icons.emailIcon}
             <input
               className="pl-2 outline-none border-none bg-black"
               type="text"
@@ -34,7 +34,7 @@ export default function LogIn() {
           </div>
           {/* Password */}
           <div className="flex items-center border-2 py-2 px-3 rounded-2xl">
-            {passwordIcon}
+            {Icons.passwordIcon}
             <input
               className="pl-2 outline-none border-none bg-black"
               type="text"

@@ -7,7 +7,7 @@ import { generateRandomColors } from "../lib/randomCommColor";
 export default async function HomePage() {
   const communities = await (await api()).communitiesAll();
   // console.log("Communities:", communities);
-  const visibleCommunities = communities.filter((community) => !community.locked);
+ const visibleCommunities = communities.filter((community) => community.host !== "def");
   const randomColors = generateRandomColors(communities.length);
 
   return (

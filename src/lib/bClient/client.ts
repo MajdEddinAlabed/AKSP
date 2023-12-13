@@ -6,7 +6,7 @@ import { headers } from "next/headers";
 import apidomainlist from "../apidomainlist.json";
 
 export async function BackAPIClient(): Promise<IClient> {
-  let aux = axios.create({
+  const aux = axios.create({
     httpsAgent: new https.Agent({
       rejectUnauthorized: false,
     }),
@@ -45,7 +45,7 @@ export async function BackAPIClient(): Promise<IClient> {
   }
 
   console.log("baseUrl: ", baseUrl);
-  let cli = new Client(baseUrl, aux);
+  const cli = new Client(baseUrl, aux);
 
   return cli;
 }

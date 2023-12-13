@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/components/inputField/richTextEditor.tsx"
+    "src/components/inputField/richTextEditor.tsx", "src/components/HuggingFace.jsx"
   ],
   "exclude": [
     "node_modules"
