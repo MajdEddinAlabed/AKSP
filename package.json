@@ -21,9 +21,11 @@
     "@stackoverflow/stacks-editor": "^0.9.1",
     "axios": "^1.6.2",
     "clsx": "^2.0.0",
+    "daisyui": "^4.4.19",
     "next": "14.0.3",
-    "react": "^18",
+    "react": "^18.2.0",
     "react-dom": "^18",
+    "react-tag-autocomplete": "^7.1.0",
     "tinycolor2": "^1.6.0"
   },
   "devDependencies": {

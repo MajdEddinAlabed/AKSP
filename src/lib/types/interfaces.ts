@@ -122,8 +122,13 @@ export interface Question {
 
 export interface QuestionCreateDto {
   title: string;
+  tags?:QuestionTagCreateDto[];
 }
 
+export interface QuestionTagCreateDto{
+  QuestionId:number;
+  TagId:number;
+}
 export interface QuestionReadDto {
   id?: number;
   title?: string | undefined;

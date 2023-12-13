@@ -749,9 +749,12 @@ export class Client implements IClient {
                 console.log("re1");
                 permanentRedirect(`http://${process.env.APP_BASEURL}`,RedirectType.replace);
             }
-        }).then((_response: AxiosResponse) => {
+        })
+        .then((_response: AxiosResponse) => {
             return this.processCommunitiesAll(_response);
-        });
+        })
+
+        ;
     }
 
     protected processCommunitiesAll(response: AxiosResponse): Promise<CommunityReadDto[]> {

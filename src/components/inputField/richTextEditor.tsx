@@ -26,7 +26,7 @@
 
 
   function Placeholder() {
-    return <div className="editor-placeholder">Enter Questoin details ...</div>;
+    return <div className="editor-placeholder">ادخل تفاصيل السؤال</div>;
   }
 
   const editorConfig = {
