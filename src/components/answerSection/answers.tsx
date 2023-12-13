@@ -2,47 +2,54 @@
 import CommentSection from "@/src/components/answerSection/commentSection";
 import "@/src/components/Style/style.css";
 import { useState } from "react";
-import { QuestionReadDto } from "@/src/lib/types";
-import { AnswerReadDto } from "@/src/lib/types";
+import { AnswerReadDto, VoteType } from "@/src/lib/types";
 import { QuestionTagReadDto } from "@/src/lib/types";
 import { Icons } from "@/src/components/icons/icons";
 import {
   upVote as upVoteAction,
   downVote as downVoteAction,
 } from "@/src/lib/actions/answerAction";
+import { useRouter } from "next/navigation";
+import { is } from "date-fns/locale";
 
 interface AnswerProps {
-  answer: AnswerReadDto | undefined;
+  answer: AnswerReadDto;
   tag?: QuestionTagReadDto[] | undefined;
 }
 
 export default function Answer({ answer, tag }: AnswerProps) {
-  const [upVote, setUpVote] = useState(answer ? answer.upVote || 0 : 0);
-  const [downVote, setDownVote] = useState(answer ? answer.downVote || 0 : 0);
+  const redirect = useRouter();
+  let isUserVoted: boolean = true;
+  const userVoteType: VoteType = VoteType.upVote;
+  const [upVote, setUpVote] = useState(answer.upVote ?? 0);
+  const [downVote, setDownVote] = useState(answer.downVote ?? 0);
 
   const handleUpVote = async () => {
-    if (answer && typeof answer.id === "number") {
-      const response = await upVoteAction(answer.id);
-
-      if (response) {
+    await upVoteAction(answer.id);
+    if (isUserVoted) {
+      if (userVoteType === VoteType.upVote) {
+        setUpVote(upVote - 1);
+        setDownVote(downVote + 1);
+      } else {
         setUpVote(upVote + 1);
+        setDownVote(downVote - 1);
       }
+    } else {
+      isUserVoted = true;
+      setUpVote(upVote + 1);
     }
   };
 
   const handleDownVote = async () => {
-    if (answer && typeof answer.id === "number") {
-      const response = await downVoteAction(answer.id);
+    await downVoteAction(answer.id);
 
-      if (response) {
-        setDownVote(downVote + 1);
-      }
-    }
+    setDownVote(downVote + 1);
   };
+
   return (
     <div>
       <div className="mainWidth mx-auto">
-        <div className="flex mt-5">
+        <div className="flex mt-16">
           <div>
             {/* up button */}
             <div>
@@ -56,7 +63,12 @@ export default function Answer({ answer, tag }: AnswerProps) {
               </button>
             </div>
             {/* vote counter */}
-            <div className="flex justify-center my-3">{upVote - downVote}</div>
+            <div
+              className="flex justify-center my-3"
+              onChange={redirect.refresh}
+            >
+              {upVote - downVote}
+            </div>
             {/* down button */}
             <div>
               <button
@@ -93,12 +105,15 @@ export default function Answer({ answer, tag }: AnswerProps) {
           {/* content section */}
           <div className="ml-5">
             <div>
-              <p>I hope that final</p>
+              <p>{answer?.content}</p>
             </div>
           </div>
           <div className="border-b text-white mt-16"></div>
-          <CommentSection />
         </div>
+        <CommentSection
+          answerId={answer ? answer.id || 0 : 0}
+          commentList={answer ? answer.comments : []}
+        />
       </div>
     </div>
   );

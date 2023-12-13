@@ -7,3 +7,6 @@
 .subTextColor {
   color: rgb(200, 204, 208);
 }
+.cDivider {
+  border-bottom: 1px solid rgba(200, 204, 208, 0.438);
+}

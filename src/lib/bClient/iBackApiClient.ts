@@ -45,7 +45,7 @@ export interface IClient {
     /**
      * @return Error
      */
-    getAllComments(): Promise<CommentReadDto>;
+    getAllComments(): Promise<CommentReadDto[]>;
     /**
      * @return Error
      */
@@ -324,12 +324,7 @@ export class Client implements IClient {
             }
         }
         {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return Promise.resolve<AnswerReadDto>(resultdefault);
-
+            return Promise.resolve<AnswerReadDto>( response.data);
         }
     }
 
@@ -493,7 +488,7 @@ export class Client implements IClient {
     /**
      * @return Error
      */
-    getAllComments( cancelToken?: CancelToken | undefined): Promise<CommentReadDto> {
+    getAllComments( cancelToken?: CancelToken | undefined): Promise<CommentReadDto[]> {
         let url_ = this.baseUrl + "/Comment/GetAllComments";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -517,7 +512,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processGetAllComments(response: AxiosResponse): Promise<CommentReadDto> {
+    protected processGetAllComments(response: AxiosResponse): Promise<CommentReadDto[]> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -528,12 +523,7 @@ export class Client implements IClient {
             }
         }
         {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return Promise.resolve<CommentReadDto>(resultdefault);
-
+            return Promise.resolve<CommentReadDto[]>(response.data);
         }
     }
 
@@ -630,12 +620,7 @@ export class Client implements IClient {
             }
         }
         {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return Promise.resolve<CommentReadDto>(resultdefault);
-
+            return Promise.resolve<CommentReadDto>(response.data);
         }
     }
 
@@ -685,11 +670,8 @@ export class Client implements IClient {
             }
         }
         {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return Promise.resolve<ProblemDetails>(resultdefault);
+        
+            return Promise.resolve<ProblemDetails>(response.data);
 
         }
     }
@@ -1214,12 +1196,7 @@ export class Client implements IClient {
             }
         }
         {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return Promise.resolve<QuestionReadDto>(resultdefault);
-
+            return Promise.resolve<QuestionReadDto>(response.data);
         }
     }
 

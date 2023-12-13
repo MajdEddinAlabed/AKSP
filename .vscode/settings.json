@@ -6,6 +6,8 @@
         "Datadefault",
         "headlessui",
         "Newtonsoft",
+        "pathe",
+        "reactjs",
         "resultdefault",
         "Saveanswer",
         "Savedanswers",
@@ -13,5 +15,6 @@
         "tinycolor",
         "unsaveanswer",
         "الأسئلة"
-    ]
+    ],
+    "compile-hero.disable-compile-files-on-did-save-code": false
 }

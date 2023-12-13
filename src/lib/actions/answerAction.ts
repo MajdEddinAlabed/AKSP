@@ -1,6 +1,6 @@
 "use server";
 import { BackAPIClient as api } from "@/src/lib/bClient/client";
-import { VoteType } from "@/src/lib/types";
+import { VoteCreateDto, VoteType } from "@/src/lib/types";
 import { AnswerCreateDto } from "../types";
 
 export async function getAllAnswers() {
@@ -35,12 +35,10 @@ export async function deleteAnswer(id: number) {
 
 export async function upVote(answerId: number) {
   const client = await api();
-  const response = await client.vote(answerId, { voteType: VoteType._1 });
-  return response;
+  await client.vote(answerId, { voteType: VoteType.upVote });
 }
 
 export async function downVote(answerId: number) {
   const client = await api();
-  const response = await client.vote(answerId, { voteType: VoteType._0 });
-  return response;
+   await client.vote(answerId, { voteType: VoteType.downVote });
 }

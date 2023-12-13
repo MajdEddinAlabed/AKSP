@@ -14,9 +14,9 @@ const AppRoot: React.FC<AppRootProps> = async ({ children }) => {
   const communities: CommunityReadDto[] = await (await api()).communitiesAll();
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} min-h-screen flex flex-col`}>
         <Header communities={communities} />
-        {children}
+        <main className="flex-grow">{children}</main>
         <Footer />
       </body>
     </html>

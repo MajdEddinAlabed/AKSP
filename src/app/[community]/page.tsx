@@ -60,7 +60,7 @@ function QuestionPreview(
           <div
             className={answerCount === 0 ? "text-gray-400" : "text-green-500"}
           >
-            {answerCount} answers
+            {answerCount <= 1 ? 0 : answerCount - 1} answers
           </div>
           <div className="text-gray-400">{question.viewCount} views</div>
         </div>

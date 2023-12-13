@@ -7,7 +7,7 @@ import { generateRandomColors } from "../lib/randomCommColor";
 export default async function HomePage() {
   const communities = await (await api()).communitiesAll();
   // console.log("Communities:", communities);
-
+  const visibleCommunities = communities.filter((community) => !community.locked);
   const randomColors = generateRandomColors(communities.length);
 
   return (
@@ -15,7 +15,7 @@ export default async function HomePage() {
       <div className="flex flex-col items-center justify-center">
         <h1 className="text-4xl font-serif py-8">Communities</h1>
         <div className="ag-format-container ag-courses_box">
-          {communities.map((community, index) => (
+          {visibleCommunities.map((community, index) => (
             <CommunityCard
               key={community.id}
               {...community}

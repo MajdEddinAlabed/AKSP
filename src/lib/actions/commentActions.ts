@@ -1,6 +1,6 @@
 "use server";
 import { BackAPIClient as api } from "@/src/lib/bClient/client";
-import { CommentCreateDto } from "../types";
+import { CommentCreateDto, CommentReadDto } from "../types";
 
 export async function addComment(comment: CommentCreateDto) {
   console.log("Adding comment:", comment);
@@ -23,7 +23,7 @@ export async function getCommentById(id: number) {
   return response;
 }
 
-export async function getAllComments() {
+export async function getAllComments(): Promise<CommentReadDto[]> {
   console.log("Getting comments");
   const response = await (await api()).getAllComments();
   return response;

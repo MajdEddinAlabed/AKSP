@@ -20,7 +20,7 @@ export interface AnswerCreateDto {
 }
 
 export interface AnswerReadDto {
-  id?: number;
+  id: number;
   questionId?: number;
   userId?: string | undefined;
   content?: string | undefined;
@@ -28,7 +28,7 @@ export interface AnswerReadDto {
   upVote?: number;
   downVote?: number;
   lastModifiedDate?: string | undefined;
-  comment?: CommentReadDto[] | undefined;
+  comments?: CommentReadDto[] | undefined;
 }
 
 export interface AnswerRefDto {
@@ -56,6 +56,8 @@ export interface Comment {
 
 export interface CommentCreateDto {
   content?: string | undefined;
+  answerId?: number | undefined;
+
 }
 
 export interface CommentReadDto {
@@ -71,6 +73,7 @@ export interface CommunityCreateDto {
   host?: string | undefined;
   icon?: string | undefined;
   isPrivate?: boolean;
+  locked?: boolean;
   connectionString?: string | undefined;
 }
 
@@ -82,6 +85,7 @@ export interface CommunityReadDto {
   isPrivate?: boolean;
   icon?: string | undefined;
   host?: string | undefined;
+  locked?: boolean;
 }
 
 export interface CommunityUpdateDto {
@@ -237,6 +241,6 @@ export interface VoteCreateDto {
 }
 
 export enum VoteType {
-  _0 = 0,
-  _1 = 1,
+  upVote = 0,
+  downVote = 1,
 }
