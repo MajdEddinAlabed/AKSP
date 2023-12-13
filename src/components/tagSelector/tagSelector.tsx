@@ -47,7 +47,7 @@ export default function TagSelector({ suggestions, selected, setSelected }: TagS
           optionIsActive: 'option-is-active',
           highlight: 'highlight'
         }}
-        labelText="Select tags"
+        labelText="اختر العلامات"
         selected={selected}
         suggestions={suggestions}
         onAdd={onAdd}

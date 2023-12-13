@@ -1,74 +1,78 @@
 'use client';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { JSX } from "react";
 import "/src/lib/general.css";
-import { QuestionCreateDto, TagReadDto } from "@/src/lib/types";
-import Link from "next/link";
+import { AnswerCreateDto, QuestionCreateDto, QuestionTagCreateDto, TagReadDto } from "@/src/lib/types";
 import TagSelector from '@/src/components/tagSelector/tagSelector';
 import RichTextEditor from '@/src/components/inputField/richTextEditor';
 import { Tag } from 'react-tag-autocomplete';
 import { createQuestion } from '@/src/lib/actions/questionActions';
+import { BackAPIClient as api } from "@/src/lib/bClient/client";
 import { createAnswer } from '@/src/lib/actions/answerAction';
 
 export default async function Ask() {
-  const [title, setTitle] = useState('');
+  const [enteredTitle, setEnteredTitle] = useState('');
   const [content, setContent] = useState('');
   const [setTags, setTag] = useState<Tag[]>([]);
 
   function handleEditorStateChange(updatedEditorState: string) {
     setContent(updatedEditorState);
   }
+  let tags: Tag[]=[];
+  let ServerTags = (await api()).getAllTags();
+  (await ServerTags).forEach(tag => {
+    tags.push({value:Number(tag.id),label:String(tag.tagName)})
+  });
 
-  const tags: Tag[] = [
-    {
-      label:'tag1',
-      value:1
-    },
-    {
-      label:'tag2',
-      value:2
-    },
-    {
-      label:'tag3',
-      value:3
-    }
-    
-  ]
+
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let selectedTags:number[]=[];
-    setTags.forEach(tag => {
-      selectedTags.push(Number(tag.value))
-    });
-    const q:QuestionCreateDto={title:title}
+
+    const q: QuestionCreateDto = { title: enteredTitle };
     let response = await createQuestion(q);
-    
-    console.log({ title, content,   selectedTags});
+
+    if (response) {
+      let selectedTags: QuestionTagCreateDto[] = [];
+      setTags.forEach(tag => {
+        selectedTags.push({ TagId: Number(tag.value), QuestionId: Number(response.id) });
+      });
+
+      //await createQuestionTag(selectedTags);
+
+      let answer: AnswerCreateDto = { questionId: Number(response.id), content: content, };
+      if (await createAnswer(answer)) {
+        const router = useRouter();
+        router.push(`/community/q/${response.id}`);
+      }
+    }
   };
 
   return (
     <div className="w-full flex items-center justify-center ">
       <form onSubmit={handleSubmit} className="flex flex-col items-center w-1/3">
-        <label className='m-4 text-white w-full '> Title:
+        <label className='m-4 text-white w-full '> 
           <div className="relative flex items-center justify-center h-12 rounded-lg focus-within:shadow-lg bg-black border border-white overflow-hidden p-2">
-            <input className="  peer h-full w-full outline-none text-sm text-white pr-2 bg-transparent" type="text" placeholder=" Enter title..." onChange={e => setTitle(e.target.value)} />
+            <input className="  peer h-full w-full outline-none text-sm text-white pr-2 bg-transparent" type="text" placeholder="ادخل العنوان" onChange={e => setEnteredTitle(e.target.value)} />
           </div>
         </label>
-        <label className='text-white'> input field
+        <label className='text-white'> 
           <div className="w-full relative flex items-center rounded-lg focus-within:shadow-lg bg-black border border-white overflow-hidden p-2">
-          <RichTextEditor onEditorStateChange={handleEditorStateChange} />
+            <RichTextEditor onEditorStateChange={handleEditorStateChange} />
           </div>
         </label>
-        <div>
-        <TagSelector suggestions={tags} selected={setTags} setSelected={setTag} />
-        </div>
-
-        <div className=' w-52 max-w-xs'>
-          <button type="submit" className="button ">Submit</button>
+        <div className="w-full flex justify-between items-center">
+          <div>
+            <TagSelector suggestions={tags} selected={setTags} setSelected={setTag} />
+          </div>
+          <div className=' w-52 max-w-xs'>
+            <button type="submit" className="button ">النشر</button>
+          </div>
         </div>
       </form>
     </div>
   );
+  
 }
 
