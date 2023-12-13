@@ -1,29 +1,42 @@
 "use client";
 import { DropDown } from "../mainDropdown/dropDown";
 import HeaderButtons from "../navLinks/headerButtons";
-import "src/components/globals.css";
-import "src/components/header/header.css";
-import { CommDropdown } from "../commDropdown/commDropdown";
+import "@/src/components/globals.css";
+import "@/src/components/header/header.css";
+import { CommDropdown } from "../communityUi/commDropdown";
 import { SearchBox } from "../searchBox/searchBox";
 import { Logo } from "../logo/logo";
-import Link from "next/dist/client/link";
+import { CommunityReadDto } from "@/src/lib/types";
 
-export default function Header() {
+interface HeaderProps {
+  communities: CommunityReadDto[];
+}
+export default function Header({ communities }: HeaderProps) {
   return (
-    <header className="relative border-b border-white">
-      <div className="flex items-center relative">
-        <div className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+    <header className="border-b border-white">
+      <div className="flex">
+        <div className="mx-auto lg:px-8">
           <div className="flex lg:flex-1 lg:gap-x-10 items-center">
             {/* Drop down menu */}
-            <DropDown />
+            <div>
+              <DropDown />
+            </div>
             {/* LOGO */}
-            <Logo />
+            <div>
+              <Logo />
+            </div>
             {/* Search box */}
-            <SearchBox />
+            <div>
+              <SearchBox />
+            </div>
             {/* Header buttons */}
-            <HeaderButtons />
+            <div className="flex">
+              <HeaderButtons />
+            </div>
             {/* Communities dropdown icon button */}
-            <CommDropdown communities={[]} />
+            <div>
+              <CommDropdown communities={communities} />
+            </div>
           </div>
         </div>
         {/* This is buttons for login and sign up pages but when adding them it's making the header move to the right and i don't know how to do it */}

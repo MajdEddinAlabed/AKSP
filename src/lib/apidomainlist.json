@@ -1,0 +1,6 @@
+[
+  { "host": "c1", "apidomain": "http://c1.api.myapp.com:8082" },
+  { "host": "c2", "apidomain": "http://c2.api.myapp.com:8083" },
+  { "host": "c3", "apidomain": "http://c3.api.myapp.com:8084" },
+  { "host": "anime", "apidomain": "http://anime.api.myapp.com:8085" }
+]

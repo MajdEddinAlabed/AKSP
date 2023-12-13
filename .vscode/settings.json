@@ -1,7 +1,20 @@
 {
     "cSpell.words": [
+        "apidomain",
+        "apidomainlist",
+        "daisyui",
+        "Datadefault",
         "headlessui",
         "Newtonsoft",
+        "pathe",
+        "reactjs",
+        "resultdefault",
+        "Saveanswer",
+        "Savedanswers",
+        "savedquestions",
+        "tinycolor",
+        "unsaveanswer",
         "الأسئلة"
-    ]
+    ],
+    "compile-hero.disable-compile-files-on-did-save-code": false
 }
