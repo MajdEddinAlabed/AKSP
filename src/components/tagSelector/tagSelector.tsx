@@ -1,12 +1,14 @@
+import { TagReadDto } from '@/src/lib/types/interfaces';
 import React, { useCallback, useState } from 'react'
-import { ReactTags, Tag } from 'react-tag-autocomplete'
+import { ReactTags,Tag } from 'react-tag-autocomplete'
 
 interface TagSelectorProps {
   suggestions: Tag[];
+  selected: Tag[];
+  setSelected: (tags: Tag[]) => void;
 }
 
-export default function TagSelector({ suggestions }: TagSelectorProps) {
-  const [selected, setSelected] = useState<Tag[]>([])
+export default function TagSelector({ suggestions, selected, setSelected }: TagSelectorProps) {
 
   const onAdd = useCallback(
     (newTag : Tag | undefined) => {

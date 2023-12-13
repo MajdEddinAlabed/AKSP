@@ -14,9 +14,8 @@ export interface Answer {
 }
 
 export interface AnswerCreateDto {
-    content?: string | undefined;
-    authorId?: string | undefined;
     questionId?: number;
+    content?: string | undefined;
 }
 
 export interface City {
@@ -124,7 +123,6 @@ export interface Question {
 
 export interface QuestionCreateDto {
     title: string;
-    content: string;
 }
 
 export interface QuestionReadDto {
@@ -189,6 +187,10 @@ export interface TagReadDto {
     id?: number;
     tagName?: string | undefined;
     communityId?: number;
+}
+export interface TagRefDto {
+    id?: number;
+    tagName?: string | undefined;
 }
 
 export interface TagUpdateDto {
