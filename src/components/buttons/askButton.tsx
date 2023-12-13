@@ -1,3 +1,4 @@
+import Link from "next/link";
 type Props = {
   width: number;
 };
@@ -14,9 +15,14 @@ export default function askButton({ width }: Props) {
   };
   return (
     <div
-      className={`flex items-center justify-end ${widthClasses[width]} max-w-xs`}
+    className={`flex items-center justify-end ${widthClasses[width]} max-w-xs`}
     >
+    <Link href="/q/ask">
       <button className="button">Ask Question</button>
+    </Link>
+
     </div>
+
   );
 }
+ 
