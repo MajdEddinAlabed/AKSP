@@ -14,15 +14,8 @@ export default function Error({
   console.log("11111111111");
 
   if (!isAxiosError(error)) {
-    // permanentRedirect(
-    //   `http://${process.env.APP_BASEURL}`,
-    //   RedirectType.replace
-    // );
   }
   useEffect(() => {
-    // Optionally log the error to an error reporting service
-    // console.log("cooooocococo")
-    // console.error(error);
   }, [error]);
 
   return (

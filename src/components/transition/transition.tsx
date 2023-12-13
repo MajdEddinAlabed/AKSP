@@ -1,5 +1,5 @@
 import { Transition } from "@headlessui/react";
-import React, { Fragment, ReactNode } from "react";
+import { Fragment, ReactNode } from "react";
 
 interface TransitionsProps {
   isOpen: boolean;

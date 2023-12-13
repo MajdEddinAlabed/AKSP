@@ -1,6 +1,6 @@
 "use server";
 import { BackAPIClient as api } from "@/src/lib/bClient/client";
-import { Question, QuestionReadDto, QuestionCreateDto } from "../types";
+import { QuestionReadDto, QuestionCreateDto } from "../types";
 
 export async function getAllQuestion() {
   console.log("Getting all questions");

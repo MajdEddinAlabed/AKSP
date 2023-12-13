@@ -12,10 +12,6 @@ export default function GlobalError({
 }) {
   if (!isAxiosError(error)) {
     console.error("global error");
-    // permanentRedirect(
-    //   `http://${process.env.APP_BASEURL}`,
-    //   RedirectType.replace
-    // );
   }
   return (
     <html lang="en">

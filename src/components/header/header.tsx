@@ -7,6 +7,7 @@ import { CommDropdown } from "../communityUi/commDropdown";
 import { SearchBox } from "../searchBox/searchBox";
 import { Logo } from "../logo/logo";
 import { CommunityReadDto } from "@/src/lib/types";
+import Link from "next/link";
 
 interface HeaderProps {
   communities: CommunityReadDto[];

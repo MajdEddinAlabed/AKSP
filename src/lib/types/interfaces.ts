@@ -106,6 +106,7 @@ export interface ProblemDetails {
   detail?: string | undefined;
   instance?: string | undefined;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
