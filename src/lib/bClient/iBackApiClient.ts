@@ -10,7 +10,7 @@
 
 import axios, { AxiosError } from 'axios';
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
-import { AnswerCreateDto, AnswerReadDto, CommentCreateDto, CommentReadDto, CommunityCreateDto, CommunityReadDto, CommunityUpdateDto, ProblemDetails, QuestionCreateDto, QuestionReadDto, SavedAnswerDto, TagCreateDto, TagReadDto, TagUpdateDto, UserCreateDto, UserReadDto, UserUpdateDto, VoteCreateDto } from '../types';
+import { AnswerCreateDto, AnswerReadDto, CommentCreateDto, CommentReadDto, CommunityCreateDto, CommunityReadDto, CommunityUpdateDto, ProblemDetails, QuestionCreateDto, QuestionReadDto, QuestionTagCreateDto, SavedAnswerDto, TagCreateDto, TagQuestionReadDto, TagReadDto, TagUpdateDto, UserCreateDto, UserReadDto, UserUpdateDto, VoteCreateDto } from '../types';
 import { NextResponse } from 'next/server';
 import { RedirectType, permanentRedirect } from 'next/navigation';
 
@@ -147,6 +147,15 @@ export interface IClient {
      * @return No Content
      */
     deleteTag(id: number): Promise<void>;
+    /**
+     * @return Success
+     */
+    addQuestionTag(body: QuestionTagCreateDto[] | undefined): Promise<TagQuestionReadDto>;
+    /**
+     * @param body (optional) 
+     * @return No Content
+     */
+    deleteQuestionTag(body: QuestionTagCreateDto | undefined): Promise<void>;
     /**
      * @return Success
      */
@@ -1502,12 +1511,7 @@ export class Client implements IClient {
             }
         }
         {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return Promise.resolve<TagReadDto[]>(resultdefault);
-
+            return Promise.resolve<TagReadDto[]>(response.data);
         }
     }
 
@@ -1706,6 +1710,114 @@ export class Client implements IClient {
     }
 
     protected processDeleteTag(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 204) {
+            const _responseText = response.data;
+            return Promise.resolve<void>(null as any);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Created
+     */
+    addQuestionTag(body: QuestionTagCreateDto[] | undefined, cancelToken?: CancelToken | undefined): Promise<TagQuestionReadDto> {
+        let url_ = this.baseUrl + "/Tag/AddQuestionTag/AddQuestionTag";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processAddQuestionTag(_response);
+        });
+    }
+
+    protected processAddQuestionTag(response: AxiosResponse): Promise<TagQuestionReadDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 201) {
+            const _responseText = response.data;
+            let result201: any = null;
+            let resultData201  = _responseText;
+            result201 = JSON.parse(resultData201);
+            return Promise.resolve<TagQuestionReadDto>(result201);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<TagQuestionReadDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return No Content
+     */
+    deleteQuestionTag(body: QuestionTagCreateDto | undefined, cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/Tag/DeleteQuestionTag/DeleteQuestionTag";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "DELETE",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processDeleteQuestionTag(_response);
+        });
+    }
+
+    protected processDeleteQuestionTag(response: AxiosResponse): Promise<void> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {

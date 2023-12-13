@@ -159,7 +159,14 @@ export interface QuestionTag {
   tag?: Tag;
 }
 
+export interface QuestionTagCreateDto {
+  tagId?: number;
+  questionId?: number;
+}
+
 export interface QuestionTagReadDto {
+  //Error if you uncomment this.
+  //[x: string]: number;
   tag?: TagRefDto;
 }
 
