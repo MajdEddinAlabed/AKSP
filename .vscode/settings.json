@@ -8,15 +8,21 @@
         "headlessui",
         "heroicons",
         "Newtonsoft",
+        "passwrod",
         "pathe",
         "reactjs",
+        "reputaiton",
         "resultdefault",
         "Saveanswer",
+        "savedanswer",
         "Savedanswers",
         "savedquestions",
         "tinycolor",
         "unsaveanswer",
-        "الأسئلة"
+        "ادخل",
+        "الأسئلة",
+        "العنوان",
+        "النشر"
     ],
     "compile-hero.disable-compile-files-on-did-save-code": false
 }

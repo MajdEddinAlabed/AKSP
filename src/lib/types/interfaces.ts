@@ -165,6 +165,7 @@ export interface QuestionTagCreateDto {
 }
 
 export interface QuestionTagReadDto {
+  QuestionId: number;
   //Error if you uncomment this.
   //[x: string]: number;
   tag?: TagRefDto;

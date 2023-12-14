@@ -10,7 +10,7 @@ import {
 import { formatDistanceToNow, format } from "date-fns";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AnswerCreateDto, QuestionReadDto } from "@/src/lib/types";
+import { AnswerCreateDto, QuestionCreateDto, QuestionReadDto } from "@/src/lib/types";
 import AddAnswerTextEditor from "@/src/components/textEditor";
 import { createAnswer } from "@/src/lib/actions/answerAction";
 import { FiEdit3 } from "react-icons/fi";
@@ -35,7 +35,16 @@ export default function Question() {
 
   const handleBlur = async () => {
     if (question && editedTitle !== question.title) {
-      await updateQuestion(questionId, { ...question, title: editedTitle });
+      const updatedQuestion: QuestionCreateDto = {
+        ...question,
+        title: editedTitle,
+        tags: question.tags?.map(tag => ({
+          ...tag,
+          QuestionId: tag.QuestionId || questionId,
+          TagId: typeof tag.tag === 'number' ? tag.tag : 1,
+        })),
+      };
+      await updateQuestion(questionId, updatedQuestion);
     }
     setIsEditing(false);
   };
