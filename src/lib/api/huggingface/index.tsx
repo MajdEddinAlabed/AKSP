@@ -7,7 +7,7 @@ query({ inputs: "Can you please let us know more details about your " }).then(
 );
 import fetch from "node-fetch";
 
-async function query(data) {
+export default async function query(data: { inputs: string; }): Promise<any> {
   const response = await fetch(
     "https://api-inference.huggingface.co/models/anchitgedekar/textcompletionmodel",
     {
