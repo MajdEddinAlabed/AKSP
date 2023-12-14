@@ -1,6 +1,11 @@
 "use server";
 import { BackAPIClient as api } from "@/src/lib/bClient/client";
-import { QuestionReadDto, QuestionCreateDto } from "../types";
+import {
+  QuestionReadDto,
+  QuestionCreateDto,
+  QuestionTagCreateDto,
+  TagQuestionReadDto,
+} from "../types";
 import { Tag } from "react-tag-autocomplete";
 
 export async function getAllQuestion() {
@@ -21,7 +26,10 @@ export async function createQuestion(body: QuestionCreateDto) {
   return response;
 }
 
-export async function updateQuestion(id: number, body: QuestionCreateDto): Promise<QuestionReadDto> {
+export async function updateQuestion(
+  id: number,
+  body: QuestionCreateDto
+): Promise<QuestionReadDto> {
   console.log("Updating question:", id, body);
   const response = await (await api()).updateQuestion(id, body);
   return response;
@@ -33,12 +41,14 @@ export async function deleteQuestion(id: number): Promise<QuestionReadDto> {
   return response;
 }
 
+export async function addQuestionTag(
+  body: QuestionTagCreateDto[] | undefined
+): Promise<TagQuestionReadDto> {
+  const response = await (await api()).addQuestionTag(body);
+  return response;
+}
+
 export async function fetchTags(): Promise<Tag[]> {
   const ServerTags = await (await api()).getAllTags();
-  console.log(ServerTags);
-  const tags: Tag[] = [];
-  ServerTags.forEach((tag) => {
-    tags.push({ value: Number(tag.id), label: String(tag.tagName) });
-  });
-  return tags;
+  return ServerTags.map(tag => ({ value: Number(tag.id), label: String(tag.tagName) }));
 }

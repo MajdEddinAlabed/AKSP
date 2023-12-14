@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "/src/lib/general.css";
 import {
   AnswerCreateDto,
@@ -10,19 +10,29 @@ import {
 import TagSelector from "@/src/components/tagSelector/tagSelector";
 import RichTextEditor from "@/src/components/inputField/richTextEditor";
 import { Tag } from "react-tag-autocomplete";
-import { createQuestion, fetchTags } from "@/src/lib/actions/questionActions";
-import { BackAPIClient as api } from "@/src/lib/bClient/client";
+import {
+  createQuestion,
+  fetchTags,
+  addQuestionTag,
+} from "@/src/lib/actions/questionActions";
 import { createAnswer } from "@/src/lib/actions/answerAction";
 
-export default async function Ask() {
+export default function Ask() {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [content, setContent] = useState("");
-  const [setTags, setTag] = useState<Tag[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
 
   function handleEditorStateChange(updatedEditorState: string) {
     setContent(updatedEditorState);
   }
-  const tags = await fetchTags();
+  useEffect(() => {
+    const fetchAndSetTags = async () => {
+      const fetchedTags = await fetchTags();
+      setTags(fetchedTags);
+    };
+
+    fetchAndSetTags();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,7 +42,7 @@ export default async function Ask() {
 
     if (response) {
       let selectedTags: QuestionTagCreateDto[] = [];
-      setTags.forEach((tag) => {
+      tags.forEach((tag) => {
         selectedTags.push({
           TagId: Number(tag.value),
           QuestionId: Number(response.id),
@@ -77,8 +87,8 @@ export default async function Ask() {
           <div>
             <TagSelector
               suggestions={tags}
-              selected={setTags}
-              setSelected={setTag}
+              selected={tags}
+              setSelected={setTags}
             />
           </div>
           <div className=" w-52 max-w-xs">
@@ -91,7 +101,3 @@ export default async function Ask() {
     </div>
   );
 }
-function addQuestionTag(selectedTags: QuestionTagCreateDto[]) {
-  throw new Error("Function not implemented.");
-}
-
