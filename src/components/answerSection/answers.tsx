@@ -19,8 +19,8 @@ interface AnswerProps {
 
 export default function Answer({ answer, tag }: AnswerProps) {
   const redirect = useRouter();
-  let isUserVoted: boolean = true;
-  const userVoteType: VoteType = VoteType.upVote;
+  const [isUserVoted, setIsUserVoted] = useState(false);
+  const [userVoteType, setUserVoteType] = useState(VoteType.upVote);
   const [upVote, setUpVote] = useState(answer.upVote ?? 0);
   const [downVote, setDownVote] = useState(answer.downVote ?? 0);
 
@@ -29,21 +29,35 @@ export default function Answer({ answer, tag }: AnswerProps) {
     if (isUserVoted) {
       if (userVoteType === VoteType.upVote) {
         setUpVote(upVote - 1);
-        setDownVote(downVote + 1);
+        setIsUserVoted(false);
       } else {
         setUpVote(upVote + 1);
         setDownVote(downVote - 1);
+        setUserVoteType(VoteType.upVote);
       }
     } else {
-      isUserVoted = true;
+      setIsUserVoted(true);
+      setUserVoteType(VoteType.upVote);
       setUpVote(upVote + 1);
     }
   };
-
+  
   const handleDownVote = async () => {
     await downVoteAction(answer.id);
-
-    setDownVote(downVote + 1);
+    if (isUserVoted) {
+      if (userVoteType === VoteType.downVote) {
+        setDownVote(downVote - 1);
+        setIsUserVoted(false);
+      } else {
+        setDownVote(downVote + 1);
+        setUpVote(upVote - 1);
+        setUserVoteType(VoteType.downVote);
+      }
+    } else {
+      setIsUserVoted(true);
+      setUserVoteType(VoteType.downVote);
+      setDownVote(downVote + 1);
+    }
   };
 
   return (

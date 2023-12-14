@@ -1,6 +1,7 @@
 "use server";
 import { BackAPIClient as api } from "@/src/lib/bClient/client";
 import { QuestionReadDto, QuestionCreateDto } from "../types";
+import { Tag } from "react-tag-autocomplete";
 
 export async function getAllQuestion() {
   console.log("Getting all questions");
@@ -30,4 +31,14 @@ export async function deleteQuestion(id: number): Promise<QuestionReadDto> {
   console.log("Deleting question:", id);
   const response = await (await api()).delete(id);
   return response;
+}
+
+export async function fetchTags(): Promise<Tag[]> {
+  const ServerTags = await (await api()).getAllTags();
+  console.log(ServerTags);
+  const tags: Tag[] = [];
+  ServerTags.forEach((tag) => {
+    tags.push({ value: Number(tag.id), label: String(tag.tagName) });
+  });
+  return tags;
 }

@@ -10,7 +10,7 @@ import {
 import TagSelector from "@/src/components/tagSelector/tagSelector";
 import RichTextEditor from "@/src/components/inputField/richTextEditor";
 import { Tag } from "react-tag-autocomplete";
-import { createQuestion } from "@/src/lib/actions/questionActions";
+import { createQuestion, fetchTags } from "@/src/lib/actions/questionActions";
 import { BackAPIClient as api } from "@/src/lib/bClient/client";
 import { createAnswer } from "@/src/lib/actions/answerAction";
 
@@ -22,11 +22,7 @@ export default async function Ask() {
   function handleEditorStateChange(updatedEditorState: string) {
     setContent(updatedEditorState);
   }
-  const tags: Tag[] = [];
-  let ServerTags = (await api()).getAllTags();
-  (await ServerTags).forEach((tag) => {
-    tags.push({ value: Number(tag.id), label: String(tag.tagName) });
-  });
+  const tags = await fetchTags();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

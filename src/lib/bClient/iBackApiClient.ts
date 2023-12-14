@@ -1556,12 +1556,7 @@ export class Client implements IClient {
             }
         }
         {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return Promise.resolve<TagReadDto>(resultdefault);
-
+            return Promise.resolve<TagReadDto>(response.data);
         }
     }
 
@@ -1608,11 +1603,7 @@ export class Client implements IClient {
             }
         }
         if (status === 201) {
-            const _responseText = response.data;
-            let result201: any = null;
-            let resultData201  = _responseText;
-            result201 = JSON.parse(resultData201);
-            return Promise.resolve<TagReadDto>(result201);
+            return Promise.resolve<TagReadDto>(response.data);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
@@ -1667,11 +1658,7 @@ export class Client implements IClient {
             }
         }
         if (status === 204) {
-            const _responseText = response.data;
-            let result204: any = null;
-            let resultData204  = _responseText;
-            result204 = JSON.parse(resultData204);
-            return Promise.resolve<TagReadDto>(result204);
+            return Promise.resolve<TagReadDto>(response.data);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
@@ -1720,7 +1707,6 @@ export class Client implements IClient {
             }
         }
         if (status === 204) {
-            const _responseText = response.data;
             return Promise.resolve<void>(null as any);
 
         } else if (status !== 200 && status !== 204) {
@@ -1773,11 +1759,7 @@ export class Client implements IClient {
             }
         }
         if (status === 201) {
-            const _responseText = response.data;
-            let result201: any = null;
-            let resultData201  = _responseText;
-            result201 = JSON.parse(resultData201);
-            return Promise.resolve<TagQuestionReadDto>(result201);
+            return Promise.resolve<TagQuestionReadDto>(response.data);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
@@ -1828,7 +1810,6 @@ export class Client implements IClient {
             }
         }
         if (status === 204) {
-            const _responseText = response.data;
             return Promise.resolve<void>(null as any);
 
         } else if (status !== 200 && status !== 204) {
@@ -1876,11 +1857,7 @@ export class Client implements IClient {
             }
         }
         if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = JSON.parse(resultData200);
-            return Promise.resolve<UserReadDto[]>(result200);
+            return Promise.resolve<UserReadDto[]>(response.data);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
@@ -1932,11 +1909,7 @@ export class Client implements IClient {
             }
         }
         if (status === 201) {
-            const _responseText = response.data;
-            let result201: any = null;
-            let resultData201  = _responseText;
-            result201 = JSON.parse(resultData201);
-            return Promise.resolve<UserReadDto>(result201);
+            return Promise.resolve<UserReadDto>(response.data);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
