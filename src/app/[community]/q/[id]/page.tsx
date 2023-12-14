@@ -10,16 +10,21 @@ import {
 import { formatDistanceToNow, format } from "date-fns";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AnswerCreateDto, QuestionCreateDto, QuestionReadDto } from "@/src/lib/types";
-import AddAnswerTextEditor from "@/src/components/textEditor";
+import {
+  AnswerCreateDto,
+  QuestionCreateDto,
+  QuestionReadDto,
+  QuestionTagReadDto,
+  TagRefDto,
+} from "@/src/lib/types";
 import { createAnswer } from "@/src/lib/actions/answerAction";
 import { FiEdit3 } from "react-icons/fi";
+import Editor from "@/src/components/inputField/richTextEditor";
 
 export default function Question() {
   const router = usePathname();
   const patheSegments = router.split("/");
   const questionId = Number(patheSegments[patheSegments.length - 1]);
-
   const [question, setQuestion] = useState<QuestionReadDto | null>(null);
   const [answer, setAnswer] = useState<AnswerCreateDto>({
     content: "",
@@ -38,10 +43,10 @@ export default function Question() {
       const updatedQuestion: QuestionCreateDto = {
         ...question,
         title: editedTitle,
-        tags: question.tags?.map(tag => ({
+        tags: question.questionTags?.map((tag) => ({
           ...tag,
           QuestionId: tag.QuestionId || questionId,
-          TagId: typeof tag.tag === 'number' ? tag.tag : 1,
+          TagId: typeof tag.tag === "number" ? tag.tag : 1,
         })),
       };
       await updateQuestion(questionId, updatedQuestion);
@@ -83,6 +88,10 @@ export default function Question() {
 
   if (!question) {
     return <div>Loading...</div>;
+  }
+
+  function editorStateChange(updateEditorState: string) {
+    setAnswer({ questionId: questionId, content: updateEditorState });
   }
 
   const date = question.lastModifiedDate || question.postedAt;
@@ -149,48 +158,29 @@ export default function Question() {
             </div>
             {/* main content */}
             {question.answers?.[0] && (
-              <Answer answer={question.answers?.[0]} tag={question.tags} />
+              <Answer
+                answer={question.answers?.[0]}
+                tag={question.questionTags}
+              />
             )}
 
             {/* tags */}
             <div>
               {/* tags */}
-              {/* 
-            <div className="mt-6 mb-3">
-              <div className="flex flex-col space-y-4">
-                <div className="flex flex-wrap">
-                  <ul className="list-none inline-flex ">
-                    <li className="inline mr-1">
-                      <a
-                        href=""
-                        className="tag bg-gray-600 rounded"
-                        aria-label="show questions tagged 'reactjs'"
-                      >
-                        reactjs
-                      </a>
-                    </li>
-                    <li className="inline mr-1">
-                      <a
-                        href=""
-                        className="tag bg-gray-600 rounded"
-                        aria-label="show questions tagged 'redux-toolkit'"
-                      >
-                        redux-toolkit
-                      </a>
-                    </li>
-                    <li className="inline mr-1">
-                      <a
-                        href=""
-                        className="tag bg-gray-600 rounded"
-                        aria-label="show questions tagged 'reduce'"
-                      >
-                        reduce
-                      </a>
-                    </li>
-                  </ul>
+
+              <div className="mt-6 mb-3">
+                <div className="flex flex-col space-y-4">
+                  <div className="flex flex-wrap">
+                    <ul className="list-none inline-flex ">
+                      {question.questionTags?.map((tag) => (
+                        <li key={tag.tag?.id} className="inline mr-1 bg-teal-500 rounded mx-2 px-2 text-black text-sm font-light">
+                          {tag.tag?.tagName}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div> */}
             </div>
           </div>
           {/* answers section */}
@@ -218,17 +208,7 @@ export default function Question() {
                 <h1 className="ml-6 text-xl">Your Answer</h1>
               </div>
               <div className="max-w-2xl mt-6 ml-6">
-                <AddAnswerTextEditor />
-                <textarea
-                  className="textarea textarea-bordered w-full h-full"
-                  rows={8}
-                  placeholder="Write an answer..."
-                  name="content"
-                  value={answer.content}
-                  onChange={(event) =>
-                    setAnswer({ ...answer, content: event.target.value })
-                  }
-                ></textarea>
+                <Editor onEditorStateChange={editorStateChange} />
                 <button
                   type="submit"
                   className="btn btn-outline"

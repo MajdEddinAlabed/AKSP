@@ -23,6 +23,7 @@ export default function Ask() {
   const [content, setContent] = useState("");
   const [tags, setTags] = useState<Tag[]>([]);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+
   const router = useRouter();
 
   function handleEditorStateChange(updatedEditorState: string) {
@@ -37,15 +38,14 @@ export default function Ask() {
     fetchAndSetTags();
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleSubmit = async (event: React.MouseEvent) => {
+    event.preventDefault();
     const q: QuestionCreateDto = { title: enteredTitle };
     const response = await createQuestion(q);
 
     if (response) {
       let selectedTagsS: QuestionTagCreateDto[] = [];
-      console.log("responsessssssssss",response);
+      console.log("responsessssssssss", response);
 
       selectedTags.forEach((tag) => {
         selectedTagsS.push({
@@ -53,14 +53,16 @@ export default function Ask() {
           QuestionId: Number(response.id),
         });
       });
-      console.log("selectedTagsS",selectedTagsS);
+      console.log("selectedTagsS", selectedTagsS);
       await addQuestionTag(selectedTagsS);
-      
+
       let answer: AnswerCreateDto = {
         questionId: Number(response.id),
         content: content,
       };
+      console.log("content", content);
       const responseAnswer = await createAnswer(answer);
+
       if (responseAnswer) {
         router.push(`/q/${Number(response.id)}`);
       }
@@ -69,10 +71,7 @@ export default function Ask() {
 
   return (
     <div className="w-full flex items-center justify-center ">
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col items-center w-1/3"
-      >
+      <div className="flex flex-col items-center w-1/3">
         <label className="m-4 text-white w-full ">
           <div className="relative flex items-center justify-center h-12 rounded-lg focus-within:shadow-lg bg-black border border-white overflow-hidden p-2">
             <input
@@ -97,12 +96,12 @@ export default function Ask() {
             />
           </div>
           <div className=" w-52 max-w-xs">
-            <button type="submit" className="button btn ml-10">
+            <button onClick={handleSubmit} className="button btn ml-10">
               النشر
             </button>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   );
 }

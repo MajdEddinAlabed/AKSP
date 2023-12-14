@@ -23,6 +23,8 @@
   import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
   import { useEffect,useState } from "react";
   import { LexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { LexicalEditor } from "lexical";
+import { $generateHtmlFromNodes } from '@lexical/html';
 
 
   function Placeholder() {
@@ -56,7 +58,7 @@
   interface OnChangePluginProps {
     onChange: (editorState: any) => void;
   }
-
+  let htmlString = "";
   function OnChangePlugin({ onChange }: OnChangePluginProps) {
     const [editor] = useLexicalComposerContext();
     useEffect(() => {
@@ -64,6 +66,9 @@
         onChange(editorState);
       });
     }, [editor, onChange]);
+    editor.update(() => {
+      htmlString = $generateHtmlFromNodes(editor, null);
+    });
     return null;
   }
 
@@ -78,8 +83,7 @@
     function onChange(editorState : any) {
       const editorStateJSON = editorState.toJSON();
       setEditorState(JSON.stringify(editorStateJSON));
-      onEditorStateChange(JSON.stringify(editorState));
-      console.log(JSON.stringify(editorStateJSON))
+      onEditorStateChange(htmlString);
     }
     
     return (
@@ -92,7 +96,6 @@
               placeholder={<Placeholder />}
               ErrorBoundary={LexicalErrorBoundary}
               />
-            <HistoryPlugin />
             <AutoFocusPlugin />
             <CodeHighlightPlugin />
             <ListPlugin />

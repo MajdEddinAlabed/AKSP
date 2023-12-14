@@ -11,6 +11,7 @@ import {
 } from "@/src/lib/actions/answerAction";
 import { useRouter } from "next/navigation";
 import { is } from "date-fns/locale";
+import Editor from "../inputField/richTextEditor";
 
 interface AnswerProps {
   answer: AnswerReadDto;
@@ -41,7 +42,7 @@ export default function Answer({ answer, tag }: AnswerProps) {
       setUpVote(upVote + 1);
     }
   };
-  
+
   const handleDownVote = async () => {
     await downVoteAction(answer.id);
     if (isUserVoted) {
@@ -118,9 +119,7 @@ export default function Answer({ answer, tag }: AnswerProps) {
           </div>
           {/* content section */}
           <div className="ml-5">
-            <div>
-              <p>{answer?.content}</p>
-            </div>
+            <div dangerouslySetInnerHTML={{ __html: answer?.content || ''}} />
           </div>
           <div className="border-b text-white mt-16"></div>
         </div>

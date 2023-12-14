@@ -137,7 +137,7 @@ export interface QuestionReadDto {
   lastModifiedDate?: string;
   viewCount?: number;
   userId?: string | undefined;
-  tags?: QuestionTagReadDto[];
+  questionTags?: QuestionTagReadDto[];
   answers?: AnswerReadDto[] | undefined;
 }
 
