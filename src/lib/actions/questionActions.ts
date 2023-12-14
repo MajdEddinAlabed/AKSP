@@ -43,12 +43,16 @@ export async function deleteQuestion(id: number): Promise<QuestionReadDto> {
 
 export async function addQuestionTag(
   body: QuestionTagCreateDto[] | undefined
-): Promise<TagQuestionReadDto> {
+) {
   const response = await (await api()).addQuestionTag(body);
+
   return response;
 }
 
 export async function fetchTags(): Promise<Tag[]> {
   const ServerTags = await (await api()).getAllTags();
-  return ServerTags.map(tag => ({ value: Number(tag.id), label: String(tag.tagName) }));
+  return ServerTags.map((tag) => ({
+    value: Number(tag.id),
+    label: String(tag.tagName),
+  }));
 }

@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import "/src/lib/general.css";
 import {
@@ -16,11 +15,15 @@ import {
   addQuestionTag,
 } from "@/src/lib/actions/questionActions";
 import { createAnswer } from "@/src/lib/actions/answerAction";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Ask() {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState<Tag[]>([]);
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const router = useRouter();
 
   function handleEditorStateChange(updatedEditorState: string) {
     setContent(updatedEditorState);
@@ -41,23 +44,25 @@ export default function Ask() {
     const response = await createQuestion(q);
 
     if (response) {
-      let selectedTags: QuestionTagCreateDto[] = [];
-      tags.forEach((tag) => {
-        selectedTags.push({
+      let selectedTagsS: QuestionTagCreateDto[] = [];
+      console.log("responsessssssssss",response);
+
+      selectedTags.forEach((tag) => {
+        selectedTagsS.push({
           TagId: Number(tag.value),
           QuestionId: Number(response.id),
         });
       });
-
-      await addQuestionTag(selectedTags);
-
+      console.log("selectedTagsS",selectedTagsS);
+      await addQuestionTag(selectedTagsS);
+      
       let answer: AnswerCreateDto = {
         questionId: Number(response.id),
         content: content,
       };
-      if (await createAnswer(answer)) {
-        const router = useRouter();
-        router.push(`/community/q/${response.id}`);
+      const responseAnswer = await createAnswer(answer);
+      if (responseAnswer) {
+        router.push(`/q/${Number(response.id)}`);
       }
     }
   };
@@ -87,12 +92,12 @@ export default function Ask() {
           <div>
             <TagSelector
               suggestions={tags}
-              selected={tags}
-              setSelected={setTags}
+              selected={selectedTags}
+              setSelected={setSelectedTags}
             />
           </div>
           <div className=" w-52 max-w-xs">
-            <button type="submit" className="button ">
+            <button type="submit" className="button btn ml-10">
               النشر
             </button>
           </div>

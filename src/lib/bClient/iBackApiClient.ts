@@ -150,7 +150,7 @@ export interface IClient {
     /**
      * @return Success
      */
-    addQuestionTag(body: QuestionTagCreateDto[] | undefined): Promise<TagQuestionReadDto>;
+    addQuestionTag(body: QuestionTagCreateDto[] | undefined): Promise<void>;
     /**
      * @param body (optional) 
      * @return No Content
@@ -1153,12 +1153,7 @@ export class Client implements IClient {
             }
         }
         {
-            const _responseText = response.data;
-            let resultdefault: any = null;
-            let resultDatadefault  = _responseText;
-            resultdefault = JSON.parse(resultDatadefault);
-            return Promise.resolve<QuestionReadDto>(resultdefault);
-
+            return Promise.resolve<QuestionReadDto>(response.data);
         }
     }
 
@@ -1720,8 +1715,8 @@ export class Client implements IClient {
      * @param body (optional) 
      * @return Created
      */
-    addQuestionTag(body: QuestionTagCreateDto[] | undefined, cancelToken?: CancelToken | undefined): Promise<TagQuestionReadDto> {
-        let url_ = this.baseUrl + "/Tag/AddQuestionTag/AddQuestionTag";
+    addQuestionTag(body: QuestionTagCreateDto[] | undefined, cancelToken?: CancelToken | undefined): Promise<void  > {
+        let url_ = this.baseUrl + "/Tag/AddQuestionTag";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -1748,7 +1743,7 @@ export class Client implements IClient {
         });
     }
 
-    protected processAddQuestionTag(response: AxiosResponse): Promise<TagQuestionReadDto> {
+    protected processAddQuestionTag(response: AxiosResponse) {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
