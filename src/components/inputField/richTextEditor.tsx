@@ -28,7 +28,7 @@ import { $generateHtmlFromNodes } from '@lexical/html';
 
 
   function Placeholder() {
-    return <div className="editor-placeholder">ادخل تفاصيل السؤال</div>;
+    return <div className="editor-placeholder r-t-l format right-align"> Enter your question </div>;
   }
 
   const editorConfig = {
@@ -90,7 +90,7 @@ import { $generateHtmlFromNodes } from '@lexical/html';
       <LexicalComposer initialConfig={editorConfig}>
         <div className="editor-container">
           <ToolbarPlugin />
-          <div className="editor-inner">
+          <div className="editor-inner" >
             <RichTextPlugin
               contentEditable={<ContentEditable className="editor-input" />}
               placeholder={<Placeholder />}

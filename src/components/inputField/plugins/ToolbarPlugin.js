@@ -642,7 +642,7 @@ export default function ToolbarPlugin() {
             className={"toolbar-item spaced " + (isCode ? "active" : "")}
             aria-label="Insert Code"
           >
-            <i className="format code" />
+            <i className="format code overflow-y-auto h-64" />
           </button>
           <button
             onClick={insertLink}

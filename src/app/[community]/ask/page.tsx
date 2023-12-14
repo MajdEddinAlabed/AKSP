@@ -70,34 +70,39 @@ export default function Ask() {
   };
 
   return (
-    <div className="w-full flex items-center justify-center ">
+    <div className="w-full flex items-center justify-center pt-20">
       <div className="flex flex-col items-center w-1/3">
-        <label className="m-4 text-white w-full ">
-          <div className="relative flex items-center justify-center h-12 rounded-lg focus-within:shadow-lg bg-black border border-white overflow-hidden p-2">
+        <label className="m-4 text-white ">
+          <div
+            className="relative flex items-center justify-center h-12 rounded-lg focus-within:shadow-lg bg-black border border-white overflow-hidden p-2"
+          >
             <input
-              className="  peer h-full w-full outline-none text-sm text-white pr-2 bg-transparent"
+              className="  peer h-full w-full outline-none text-sm text-white bg-transparent"
               type="text"
-              placeholder="ادخل العنوان"
+              placeholder="Enter a title"
               onChange={(e) => setEnteredTitle(e.target.value)}
             />
           </div>
         </label>
         <label className="text-white">
-          <div className="w-full relative flex items-center rounded-lg focus-within:shadow-lg bg-black border border-white overflow-hidden p-2">
+          <div className="w-full relative flex items-center rounded-lg focus-within:shadow-lg bg-black border border-white overflow-hidden ">
             <RichTextEditor onEditorStateChange={handleEditorStateChange} />
           </div>
         </label>
-        <div className="w-full flex justify-between items-center">
-          <div>
+        <div className="w-full flex justify-between ">
+          <div className="flex-grow pl-2">
             <TagSelector
               suggestions={tags}
               selected={selectedTags}
               setSelected={setSelectedTags}
             />
           </div>
-          <div className=" w-52 max-w-xs">
-            <button onClick={handleSubmit} className="button btn ml-10">
-              النشر
+          <div className=" w-52 max-w-xs flex-shrink-0 pt-8 pl-20 ">
+            <button
+              onClick={handleSubmit}
+              className="btn btn-outline btn-success px-4 w-24 mt-4 ml-2 "
+            >
+              <p className="font-light text-xl">Submit</p>
             </button>
           </div>
         </div>

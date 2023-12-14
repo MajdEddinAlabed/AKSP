@@ -9,6 +9,10 @@ interface CommDropdownProps {
 }
 
 export const CommDropdown = ({ communities }: CommDropdownProps) => {
+  const visibleCommunities = communities.filter(
+    (community) => community.host !== "def"
+  );
+
   const { isOpen, toggleDropdown, closeDropdown, dropdownRef } =
     CommDropdownHandler();
 
@@ -22,23 +26,21 @@ export const CommDropdown = ({ communities }: CommDropdownProps) => {
             style={{ width: "200px" }}
           >
             <div className="p-4 mx-5 text-white rounded-b border border-white border-t-black bg-black">
-              <div style={{ height: "200px", overflowY: "auto" }}>
+              <div style={{ height: "180px", overflowY: "auto" }}>
                 <ul>
-                  {communities.map((community) => (
+                  {visibleCommunities.map((community) => (
                     <li key={community.id} onClick={closeDropdown}>
                       <Link href={`http://${community.host}.localhost:3000`}>
                         <>
                           <div className="border rounded border-gray-400 mb-2 p-1 text-sm hover: scale">
                             {community.name}
                           </div>
-                          <div></div>
                         </>
                       </Link>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="btn btn-outline btn-primary" onClick={closeDropdown}>Create community</div>
             </div>
           </div>
         </Transitions>

@@ -380,7 +380,7 @@ pre::-webkit-scrollbar-thumb {
 .toolbar .divider {
   width: 1px;
   background-color: #bebebe;
-  margin: 0 4px;
+  /* margin: 0 4px; */
 }
 
 .toolbar select.toolbar-item {

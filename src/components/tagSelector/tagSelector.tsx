@@ -27,7 +27,7 @@ export default function TagSelector({ suggestions, selected, setSelected }: TagS
   )
 
    return (
-     <div className='m-5 items-center justify-center'>
+     <div className='m-5 items-center justify-center ' dir='ltr'>
     
       <ReactTags
         classNames={{
@@ -40,19 +40,19 @@ export default function TagSelector({ suggestions, selected, setSelected }: TagS
           tagListItem: 'tag-list-item',
           tag: 'tag',
           tagName: 'tag-name',
-          comboBox: 'bg-black rounded-lg border border-white w-32 h-10',
+          comboBox: 'bg-black rounded-lg border border-white p-4',
           input: 'bg-black ',
-          listBox: 'rounded border border-white',
+          listBox: '',
           option: 'option',
-          optionIsActive: 'option-is-active',
-          highlight: 'highlight'
+          optionIsActive: '',
+          highlight: ''
         }}
-        labelText="اختر العلامات"
+        labelText="Select tags"
         selected={selected}
         suggestions={suggestions}
         onAdd={onAdd}
         onDelete={onDelete}
-        noOptionsText="No matching countries"
+        noOptionsText="No matching tags"
       />
 
     </div>
