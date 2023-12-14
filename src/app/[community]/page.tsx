@@ -9,7 +9,6 @@ import { formatDistanceToNow } from "date-fns";
 
 export default async function QuestionsList() {
   const questions = await (await api()).getAllQuestion();
-  //const questions = mockQuestions;
   return (
     <main>
       <div className="flex flex-row items-center justify-center h-1/2">
@@ -17,7 +16,7 @@ export default async function QuestionsList() {
           <h1 className="text-3xl font-serif">Top Questions</h1>
         </div>
         <div className="mx-60 my-20"></div>
-        {askButton({ width: 52 })}
+        {askButton({ width: 64 })}
       </div>
       <div className="my-5"></div>
       <div className="flex flex-col items-center justify-center h-1/2">

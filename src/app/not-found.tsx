@@ -1,7 +1,9 @@
 export default function NotFoundPage() {
   return (
     <main>
-      <h1>404</h1>
+      <div className="mx-auto">
+        <h1 >Page not found</h1>
+      </div>
     </main>
   );
 }
