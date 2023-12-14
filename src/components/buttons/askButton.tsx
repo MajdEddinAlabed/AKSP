@@ -17,7 +17,7 @@ export default function askButton({ width }: Props) {
     <div
     className={`flex items-center justify-end ${widthClasses[width]} max-w-xs`}
     >
-    <Link href="/q/ask">
+    <Link href="/ask">
       <button className="button">Ask Question</button>
     </Link>
 

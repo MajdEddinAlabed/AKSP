@@ -39,7 +39,7 @@ export default async function Ask() {
         });
       });
 
-      //await createQuestionTag(selectedTags);
+      await addQuestionTag(selectedTags);
 
       let answer: AnswerCreateDto = {
         questionId: Number(response.id),
@@ -91,3 +91,7 @@ export default async function Ask() {
     </div>
   );
 }
+function addQuestionTag(selectedTags: QuestionTagCreateDto[]) {
+  throw new Error("Function not implemented.");
+}
+
